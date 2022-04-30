@@ -5,9 +5,13 @@
 #### 使用说明
 
 构建 
-    a=fenshu（zi，mu=1）
+    - a=fenshu（zi，mu=1）整数
+    - a=fenshu（shu）浮点数
+    
+
+
 使用：
-    加减乘除均可使用
-    zhi（）方法将其变为float
+    - 加减乘除均可使用，但与int，float不兼容，需要转换
+    - zhi（）方法将其变为float
     
     
