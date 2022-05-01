@@ -11,6 +11,7 @@ class fenshu:
         self.yuefen()    
     def zhi(self):#计算
         if self.zi==0:
+            self.mu=0
             return 0
         else:
             return self.zi/self.mu        
@@ -62,6 +63,7 @@ class fenshu:
         return a   
     def __str__(self):
         return f"({self.zi}/{self.mu})"
+    __repr__=__str__    
          
     
 
