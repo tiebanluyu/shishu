@@ -1,17 +1,17 @@
-����
+![9f7934b7e3110ddfd292cb967d243caec0a8a0bf](9f7934b7e3110ddfd292cb967d243caec0a8a0bf.png)
 
-����
-���������������ںܴ�̶���Ӱ���ҽ��б�̣���Բ���ʵļ��㡣�ο�����������0.1+0.2==0.3ΪfalseΪ�ˣ��ұ�д��һ��Python�ࡣ������һ����������--����
-#### ʹ��˵��
+介绍
+浮点数长度限制在很大程度上影响我进行编程，如圆周率的计算。何况浮点数还有(0.1+0.2==0.3)为false的浮点数狱。为此，我编写了一个Python类。新增了一中数据类型--分数
+使用说明
 
-���� 
-    - a=fenshu��zi��mu=1������
-    - a=fenshu��shu��������
+构建 
+    - a=fenshu（zi，mu=1）整数变为分数
+    - a=fenshu（shu）浮点数变为分数（浮点数精度太高会丢失尾数）
     
 
 
-ʹ�ã�
-    - �Ӽ��˳�����ʹ�ã�����int��float�����ݣ���Ҫת��
-    - zhi�������������Ϊfloat
+使用：
+    - 加减乘除均可使用，但与int，float不兼容，需要转换
+    - zhi（）方法将其变为float
     
     
