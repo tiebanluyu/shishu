@@ -22,7 +22,7 @@ class fenshu:
                 c=a%b
                 a=b
                 b=c
-                #print(1232)
+                
             return a
         if self.zi==0:
             self.mu=1
@@ -78,9 +78,9 @@ class fenshu:
         mu=self.mu*shu.zi
         a=fenshu(zi,mu)
         a.yuefen()
-        return a
-        
+        return a       
     __div__=__floordiv__=__truediv__    
+
     #文本化
     def __str__(self):
         return f"({self.zi}/{self.mu})"
