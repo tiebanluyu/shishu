@@ -137,4 +137,4 @@ if __name__=="__main__":
     a=fenshu(100)
     b=fenshu(144)
 
-    print(list(a))
+    
