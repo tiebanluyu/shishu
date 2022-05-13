@@ -1,4 +1,4 @@
-﻿class fenshu:
+class fenshu:
     def __init__(self,zi=0,mu=1):
         if str(type(zi))==str(type(0.1)):#float
             self.zi=zi*(10**15)
