@@ -1,4 +1,4 @@
-﻿from copy import deepcopy
+from copy import deepcopy
 bigeshi=lambda a,b:type(a)==type(b)#对格式进行比较
 class fenshu:
     def __init__(self,zi=0,mu=1):
@@ -9,7 +9,7 @@ class fenshu:
             self.zi=zi
             self.mu=mu
         else:
-            raise Exception("输入错误")
+            raise Exception("输入错误")'
         self.yuefen()    
     def zhi(self):#计算
         if self.zi==0:
