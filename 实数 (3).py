@@ -9,7 +9,7 @@ class fenshu:
             self.zi=zi
             self.mu=mu
         else:
-            raise Exception("输入错误")'
+            raise Exception("输入错误")
         self.yuefen()    
     def zhi(self):#计算
         if self.zi==0:
