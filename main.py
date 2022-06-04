@@ -1,5 +1,14 @@
-from copy import deepcopy
+from copy import deepcopy#导入deepcopy
 bigeshi=lambda a,b:type(a)==type(b)#对格式进行比较
+def geshihua(shu):#将各种格式转为分数
+        if bigeshi(shu,fenshu()):#fenshu
+            return shu                   
+        elif bigeshi(shu,1) or bigeshi(shu,0.1):
+            return fenshu(shu)
+        else: 
+            raise Exception("输入错误") 
+
+#分数模块
 class fenshu:
     def __init__(self,zi=0,mu=1):
         if bigeshi(zi,0.1):#float
@@ -9,14 +18,24 @@ class fenshu:
             self.zi=zi
             self.mu=mu
         else:
-            raise Exception("输入错误")
+            raise Exception("输入错误")#别的奇怪东西
         self.yuefen()    
+    
+    @property
     def zhi(self):#计算
         if self.zi==0:
             self.mu=1
             return 0
         else:
-            return self.zi/self.mu        
+            return self.zi/self.mu 
+    @zhi.setter
+    def zhi(self,zhi1):
+        a=fenshu(zhi1)
+        self.zi=a.zi
+        self.mu=a.mu        
+            
+            
+                   
     def yuefen(self):#约分
         def zuidagongyueshu(a,b):
             #最大公约数之辗转相除法
@@ -41,29 +60,26 @@ class fenshu:
     
     #输出数值
     def __float__(self):
-        return self.zhi()    
-    value=__call__=__float__ #多方法
+        return self.zhi    
+    __call__=__float__
+    
+    
+     
     
     #比较
-    def __lt__(self,shu):
-        return self()<shu()
-    def __gt__(self,shu):
-        return self()>shu()  
-    def __eq__(self,shu):
-        return self()==shu() 
-    def __ne__(self,shu):
-        return self()!=shu()     
+      
+    __lt__=lambda self,shu:self()<shu()
+    __gt__=lambda self,shu:self()>shu()
+    __le__=lambda self,shu:self()<=shu()
+    __ge__=lambda self,shu:self()>=shu()
+    __eq__=lambda self,shu:self()==shu()
+    __ne__=lambda self,shu:self()!=shu()
+            
     
     #四则运算
-    def geshihua(self,shu):
-        if bigeshi(shu,fenshu()):#fenshu
-            return shu                   
-        elif bigeshi(shu,1) or bigeshi(shu,0.1):
-            return fenshu(shu)
-        else: 
-            raise Exception("输入错误")   
+      
     def __add__(self,shu):#加
-        shu=self.geshihua(shu)
+        shu=geshihua(shu)
         zi=self.zi*shu.mu+shu.zi*self.mu
         mu=self.mu*shu.mu
     
@@ -72,7 +88,7 @@ class fenshu:
         return a
         
     def __sub__(self,shu):#减
-        shu=self.geshihua(shu)
+        shu=geshihua(shu)
         zi=self.zi*shu.mu-shu.zi*self.mu
         mu=self.mu*shu.mu
         a=fenshu(zi,mu)
@@ -80,14 +96,14 @@ class fenshu:
         return a
      
     def __mul__(self,shu):#乘
-        shu=self.geshihua(shu)
+        shu=geshihua(shu)
         zi=self.zi*shu.zi      
         mu=self.mu*shu.mu
         a=fenshu(zi,mu)
         a.yuefen()
         return a
     def __truediv__(self,shu):#除
-        shu=self.geshihua(shu)
+        shu=geshihua(shu)
         zi=self.zi*shu.mu     
         mu=self.mu*shu.zi
         a=fenshu(zi,mu)
@@ -122,42 +138,35 @@ class fenshu:
         return b
             #
     #文本化
-    def __str__(self):
-        return f"fenshu({self.zi}/{self.mu})"
-    __repr__=__str__    
+    
+    __repr__=__str__=lambda self: f"fenshu({self.zi}/{self.mu})"
+    	  
     
     #转换成列表
     def list(self,chang=100):
-        zi=self.zi
-        mu=self.mu
-        a=list()
-        chang=int(chang/4)*4
-        b=int(self())#整数
-        a.append(b)
-        zi-=mu*b
-        for i in range(chang//4):
-            zi=zi*10000
-            b=int(zi/mu)
-            zi=zi-mu*b
-            
-            a.append(b)
-            #
-        return a      
+        self.__iter__()
+        list1=[]
+        for linshi in range(int(chang/4)):
+            list1.append(self.__next__())
+        return list1             
 class shishu:
-    geshihua=fenshu.geshihua
+    
     def __init__(self,shu=0,dishu=1):
         
         if shu!=0 and bigeshi(shu,shishu()):
             self.xinxi=deepcopy(shu.xinxi)
             return
-        shu=self.geshihua(shu)
+        if bigeshi(shu,dict()):
+            self.xinxi=shu
+            return    
+        shu=geshihua(shu)
         self.xinxi={}
         self.xinxi[dishu]=shu
     def jiashu(self,shu,beikaifangshu=1):
         if not self.xinxi.get(beikaifangshu) is None:
-            self.xinxi[beikaifangshu]+=self.geshihua(shu)
+            self.xinxi[beikaifangshu]+=geshihua(shu)
         else:
-            self.xinxi[beikaifangshu]=self.geshihua(shu)
+            self.xinxi[beikaifangshu]=geshihua(shu)
         
     def __add__(self,shu):
         linshi=shishu(self)
@@ -167,26 +176,27 @@ class shishu:
                 linshi.jiashu(shu.xinxi[i],i)
                 
         else:#分数，小数
-            shu=linshi.geshihua(shu)    
+            shu=geshihua(shu)    
             linshi.jiashu(shu)
         return linshi
-    def __sub__(self,shu):
-        linshi=shishu(self)
+    def __sub__(self,shu):#减法
+        linshi=shishu(self)#复制一份
         
         if bigeshi(self,shu):#实数格式
             for i in shu.xinxi:
                 linshi.jiashu(shu.xinxi[i]*(-1),i)
                 
         else:#分数，小数
-            shu=linshi.geshihua(shu*(-1))    
+            shu=geshihua(shu*(-1))    
             linshi.jiashu(shu)
         return linshi
-    def huajian(self):
+    def huajian(self,*,gai=True):
         def fenjie(a):
             b=1
             c=1
             while c**2<a:
                 c+=1
+                
                 if a%(c**2)==0:
                     b=c
             return b
@@ -200,13 +210,26 @@ class shishu:
             linshi3=linshi3*linshi4
             
             if  fuzhi.get(linshi2) is None:
-                fuzhi[linshi2]=self.geshihua(linshi3)
+                fuzhi[linshi2]=geshihua(linshi3)
                 
             else:
-                fuzhi[linshi2]+=self.geshihua(linshi3)
+                fuzhi[linshi2]+=geshihua(linshi3)
+        
+        del linshi,linshi2,linshi3,linshi4
+        if not gai:
+            return shishu(fuzhi)        
+        else:
+            self.xinxi=fuzhi    
+            return self
+    def __mul__(self,shu):
+        linshi=shishu()
+        xinxi1=self.xinxi
+        xinxi2=shu.xinxi
+        for jia in xinxi1:
+            for yi in xinxi2:
+                linshi.jiashu(xinxi1[jia]*xinxi2[yi],beikaifangshu=jia*yi)
                 
-        self.xinxi=fuzhi    
-            
+        return linshi.huajian()       
             
             
         
@@ -217,11 +240,23 @@ class shishu:
     	             )         
 if __name__=="__main__":    
        
+    from cProfile import run
+    a=shishu({
+    	1:fenshu(0.02437643522627294),
+    	91:fenshu(0.15373848453),
+    	817:fenshu(4.0263),
+    	257:fenshu(731636183651316736136.63613136),
+    1964858457:fenshu(35361851371.361531531631838),
+    41396137:fenshu(2.5),
+    597139761:fenshu(17.579)
     
-    a=shishu(12,3)
-   
-    c=shishu(13,120)
-    c=c-a
-    c.huajian()
-    print(c)
-        
+    
+    
+    	}
+    	)
+    #run("print(a*a*a*a*a+a*a*a*a*a)")  
+    
+    
+    a=fenshu(100,91)
+    a.zhi=1  
+    print(a.zhi)
