@@ -28,12 +28,8 @@ class fenshu:
             return 0
         else:
             return self.zi/self.mu 
-    @zhi.setter
-    def zhi(self,zhi1):
-        a=fenshu(zhi1)
-        self.zi=a.zi
-        self.mu=a.mu        
-            
+    
+    
             
                    
     def yuefen(self):#约分
@@ -84,7 +80,7 @@ class fenshu:
         mu=self.mu*shu.mu
     
         a=fenshu(zi,mu)
-        a.yuefen()
+        
         return a
         
     def __sub__(self,shu):#减
@@ -92,7 +88,7 @@ class fenshu:
         zi=self.zi*shu.mu-shu.zi*self.mu
         mu=self.mu*shu.mu
         a=fenshu(zi,mu)
-        a.yuefen()
+        
         return a
      
     def __mul__(self,shu):#乘
@@ -100,14 +96,14 @@ class fenshu:
         zi=self.zi*shu.zi      
         mu=self.mu*shu.mu
         a=fenshu(zi,mu)
-        a.yuefen()
+        
         return a
     def __truediv__(self,shu):#除
         shu=geshihua(shu)
         zi=self.zi*shu.mu     
         mu=self.mu*shu.zi
         a=fenshu(zi,mu)
-        a.yuefen()
+        
         return a
         
     __div__=__floordiv__=__truediv__    
