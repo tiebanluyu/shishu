@@ -10,11 +10,11 @@ def geshihua(shu):#将各种格式转为分数
 
 #分数模块
 class fenshu:
-    def __init__(self,zi=0,mu=1):
-        if bigeshi(zi,0.1):#float
+    def __init__(self,zi=0,mu=1):#初始化
+        if bigeshi(zi,0.1):#float格式
             self.zi=zi*(10**15)
             self.mu=(10**15)                    
-        elif bigeshi(zi,1):#int
+        elif bigeshi(zi,1):#int格式
             self.zi=zi
             self.mu=mu
         else:
@@ -58,51 +58,50 @@ class fenshu:
     def __float__(self):
         return self.zhi    
     __call__=__float__
+    __int__=lambda self:int(self.zi)
     
     
      
     
     #比较
       
-    __lt__=lambda self,shu:self()<shu()
-    __gt__=lambda self,shu:self()>shu()
-    __le__=lambda self,shu:self()<=shu()
-    __ge__=lambda self,shu:self()>=shu()
-    __eq__=lambda self,shu:self()==shu()
-    __ne__=lambda self,shu:self()!=shu()
+    __lt__=lambda self,shu:self()<shu()#小于
+    __gt__=lambda self,shu:self()>shu()#大于
+    __le__=lambda self,shu:self()<=shu()#小于等于
+    __ge__=lambda self,shu:self()>=shu()#大于等于
+    __eq__=lambda self,shu:self()==shu()#等于
+    __ne__=lambda self,shu:self()!=shu()#不等于
             
     
     #四则运算
       
     def __add__(self,shu):#加
-        shu=geshihua(shu)
+        shu=geshihua(shu)#格式化，兼容int和float
         zi=self.zi*shu.mu+shu.zi*self.mu
-        mu=self.mu*shu.mu
-    
-        a=fenshu(zi,mu)
-        
+        mu=self.mu*shu.mu    
+        a=fenshu(zi,mu)#包装       
         return a
         
     def __sub__(self,shu):#减
-        shu=geshihua(shu)
+        shu=geshihua(shu)#格式化，兼容int和float
         zi=self.zi*shu.mu-shu.zi*self.mu
         mu=self.mu*shu.mu
-        a=fenshu(zi,mu)
+        a=fenshu(zi,mu)#包装
         
         return a
      
     def __mul__(self,shu):#乘
-        shu=geshihua(shu)
+        shu=geshihua(shu)#格式化，兼容int和float
         zi=self.zi*shu.zi      
         mu=self.mu*shu.mu
-        a=fenshu(zi,mu)
+        a=fenshu(zi,mu)#包装
         
         return a
     def __truediv__(self,shu):#除
-        shu=geshihua(shu)
+        shu=geshihua(shu)#格式化，兼容int和float
         zi=self.zi*shu.mu     
         mu=self.mu*shu.zi
-        a=fenshu(zi,mu)
+        a=fenshu(zi,mu)#包装
         
         return a
         
@@ -132,7 +131,7 @@ class fenshu:
         self.iterzi=self.iterzi-self.mu*b
             
         return b
-            #
+            
     #文本化
     
     __repr__=__str__=lambda self: f"fenshu({self.zi}/{self.mu})"
