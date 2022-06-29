@@ -14,6 +14,7 @@ def geshihua(shu):
 #分数模块
 class fenshu:
     def __init__(self,zi=0,mu=1):#初始化
+        self.allow=True    
         if bigeshi(zi,0.1):#float格式
             self.zi=zi*(10**15)
             self.mu=(10**15)                    
@@ -23,7 +24,7 @@ class fenshu:
         else:
             raise Exception("输入错误")#别的奇怪东西
         self.yuefen()    
-    
+        self.allow=False
     @property
     def zhi(self):#计算
         if self.zi==0:
@@ -143,12 +144,20 @@ class shishu:
         if shu!=0 and bigeshi(shu,shishu()):#实数格式，shu!=1是为了防止无限递推
             self.xinxi=deepcopy(shu.xinxi)
             return
-        if bigeshi(shu,dict()):#dict格式
+        elif bigeshi(shu,dict()):#dict格式
             self.xinxi=shu
             return    
-        shu=geshihua(shu)#int float 分数
-        self.xinxi={}
-        self.xinxi[dishu]=shu
+        else:
+            shu=geshihua(shu)#int float 分数
+            self.xinxi={}
+            self.xinxi[dishu]=shu
+        a=self.huajian()
+        self.xinxi.clear()
+        
+        
+        for i in a:
+            self.xinxi[i]=a[i]
+                
     
     def jiashu(self,shu,beikaifangshu=1):#添加一个数
         if not self.xinxi.get(beikaifangshu) is None:#已存在
@@ -197,9 +206,15 @@ class shishu:
             if  fuzhi.get(linshi2) is None:
                 fuzhi[linshi2]=geshihua(linshi3)                
             else:
-                fuzhi[linshi2]+=geshihua(linshi3)       
-        return shishu(fuzhi)        
-     
+                fuzhi[linshi2]+=geshihua(linshi3)
+        fuzhi2=dict(fuzhi)
+        for linshi in fuzhi:
+            print(1)
+            
+            if fuzhi[linshi]==fenshu():
+                del fuzhi2[linshi]
+        return fuzhi2          
+       
     def __mul__(self,shu):
         linshi=shishu()
         xinxi1=self.xinxi
@@ -207,8 +222,12 @@ class shishu:
         for jia in xinxi1:
             for yi in xinxi2:
                 linshi.jiashu(xinxi1[jia]*xinxi2[yi],beikaifangshu=jia*yi)          
-        return linshi.huajian()       
-            
+        return shishu(linshi.huajian())       
+    def __truediv__(self,shu):
+        a=self
+        b=shu
+        
+        
             
         
     __str__=__repr__=(lambda self : 
@@ -220,11 +239,21 @@ if __name__=="__main__":
        
     from cProfile import run
     a=shishu({
-    	1:fenshu(0.02437643522627294),
-    	91:fenshu(0.1537384845)
+    	1:fenshu(1),
+    	2:fenshu(1)
+    	}
+    	)
+    b=shishu({
+    	1:fenshu(1),
+    	2:fenshu(-1),
+        3:fenshu(100)
     	}
     	)
     
+    c=a*b
+    
+    while 1:
+        print(exec(input()))
     
     
     
