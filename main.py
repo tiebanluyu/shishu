@@ -51,8 +51,8 @@ class fenshu:
         zi=self.zi
         mu=self.mu
         yue=zuidagongyueshu(zi,mu)
-        zi=zi/yue
-        mu=mu/yue      
+        zi=zi//yue
+        mu=mu//yue      
         self.zi=int(zi)
         self.mu=int(mu)
     
@@ -209,7 +209,7 @@ class shishu:
                 fuzhi[linshi2]+=geshihua(linshi3)
         fuzhi2=dict(fuzhi)
         for linshi in fuzhi:
-            print(1)
+            
             
             if fuzhi[linshi]==fenshu():
                 del fuzhi2[linshi]
@@ -226,9 +226,26 @@ class shishu:
     def __truediv__(self,shu):
         a=self
         b=shu
-        
-        
+        print(a,b)
+        if (b.xinxi.get(1) is None):
+            a=a*b
+            b=b*b
             
+        while not (len(b.xinxi)==1):
+        
+            d=b.xinxi.copy()
+            d[1]=d[1]*-1
+            c=shishu(d)    
+            a=a*c
+            b=b*c
+            print(a,b)
+            import time
+            time.sleep(1)
+        c=shishu(a)
+        print(c)
+        for i in a.xinxi:
+            c.xinxi[i]=c.xinxi[i]/b.xinxi[1]    
+        return c    
         
     __str__=__repr__=(lambda self : 
     	                "shishu"+str(self.xinxi).
@@ -246,14 +263,15 @@ if __name__=="__main__":
     b=shishu({
     	1:fenshu(1),
     	2:fenshu(-1),
-        3:fenshu(100)
+        3:fenshu(1.78)
     	}
     	)
     
-    c=a*b
-    
+    c=a/b
+    print(c)
+    """
     while 1:
         print(exec(input()))
-    
+    """
     
     
