@@ -14,7 +14,7 @@ def geshihua(shu):
 #分数模块
 class fenshu:
     def __init__(self,zi=0,mu=1):#初始化
-        self.allow=True    
+         
         if bigeshi(zi,0.1):#float格式
             self.zi=zi*(10**15)
             self.mu=(10**15)                    
@@ -24,7 +24,7 @@ class fenshu:
         else:
             raise Exception("输入错误")#别的奇怪东西
         self.yuefen()    
-        self.allow=False
+        
     @property
     def zhi(self):#计算
         if self.zi==0:
@@ -133,7 +133,7 @@ class fenshu:
             
     
     #文本化    
-    __repr__=__str__=lambda self: f"fenshu({self.zi}/{self.mu})"
+    #__repr__=__str__=lambda self:f"fenshu({self.zi}/{self.mu})"
     __hash__=lambda self:hash((self.zi,self.mu))	  
     
 #实数             
@@ -211,7 +211,7 @@ class shishu:
         for linshi in fuzhi:
             
             
-            if fuzhi[linshi]==fenshu():
+            if fuzhi[linshi].zi==0:
                 del fuzhi2[linshi]
         return fuzhi2          
        
@@ -226,25 +226,25 @@ class shishu:
     def __truediv__(self,shu):
         a=self
         b=shu
-        print(a,b)
+        #print(a,b)
         if (b.xinxi.get(1) is None):
             a=a*b
             b=b*b
-            
+        #print(a,b)    
         while not (len(b.xinxi)==1):
-        
+            
             d=b.xinxi.copy()
             d[1]=d[1]*-1
-            c=shishu(d)    
+            c=shishu(d) 
+            print(c)
+               
             a=a*c
             b=b*c
-            print(a,b)
-            import time
-            time.sleep(1)
+            
         c=shishu(a)
-        print(c)
+        
         for i in a.xinxi:
-            c.xinxi[i]=c.xinxi[i]/b.xinxi[1]    
+            c.xinxi[i]=a.xinxi[i]/b.xinxi[1]    
         return c    
         
     __str__=__repr__=(lambda self : 
@@ -254,24 +254,21 @@ class shishu:
     	             )         
 if __name__=="__main__":    
        
-    from cProfile import run
-    a=shishu({
+    #from cProfile import run
+    d=shishu({
     	1:fenshu(1),
     	2:fenshu(1)
     	}
     	)
-    b=shishu({
-    	1:fenshu(1),
-    	2:fenshu(-1),
-        3:fenshu(1.78)
+    e=shishu({
+    	1:fenshu(-1),
+    	2:fenshu(1),
+        3:fenshu(1),
+        5:fenshu(1)
     	}
     	)
-    
-    c=a/b
+
+    c=d/e
     print(c)
-    """
-    while 1:
-        print(exec(input()))
-    """
     
     
