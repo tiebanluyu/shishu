@@ -22,10 +22,10 @@ class fenshu:
             self.zi=zi
             self.mu=mu
         else:
-            raise Exception("输入错误")#别的奇怪东西
+            raise Exception("输入错误,暂不支持文本")#别的奇怪东西
         self.yuefen()    
         
-    @property
+    @property #将方法访问转换成属性访问
     def zhi(self):#计算
         if self.zi==0:
             self.mu=1
@@ -133,7 +133,7 @@ class fenshu:
             
     
     #文本化    
-    #__repr__=__str__=lambda self:f"fenshu({self.zi}/{self.mu})"
+    __repr__=__str__=lambda self:f"fenshu({self.zi}/{self.mu})"
     __hash__=lambda self:hash((self.zi,self.mu))	  
     
 #实数             
@@ -160,11 +160,11 @@ class shishu:
                 
     
     def jiashu(self,shu,beikaifangshu=1):#添加一个数
-        if not self.xinxi.get(beikaifangshu) is None:#已存在
+        if not self.xinxi.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
             self.xinxi[beikaifangshu]+=geshihua(shu)
-        else:#不存在
+        else:                                        #不存在
             self.xinxi[beikaifangshu]=geshihua(shu)
-    #三则运算（除法难以完成）
+    #三则运算（除法有bug）
     #加法    
     def __add__(self,shu):
         linshi=shishu(self)
@@ -186,7 +186,7 @@ class shishu:
             shu=geshihua(shu*(-1))    
             linshi.jiashu(shu)
         return linshi
-    def huajian(self):
+    def huajian(self):#化简
         def fenjie(a):
             b=1
             c=1
@@ -223,52 +223,26 @@ class shishu:
             for yi in xinxi2:
                 linshi.jiashu(xinxi1[jia]*xinxi2[yi],beikaifangshu=jia*yi)          
         return shishu(linshi.huajian())       
-    def __truediv__(self,shu):
+    def __truediv__(self,shu):#有BUG
         a=self
-        b=shu
-        #print(a,b)
+        b=shu    
         if (b.xinxi.get(1) is None):
             a=a*b
-            b=b*b
-        #print(a,b)    
-        while not (len(b.xinxi)==1):
-            
+            b=b*b        
+        while not (len(b.xinxi)==1):           
             d=b.xinxi.copy()
             d[1]=d[1]*-1
-            c=shishu(d) 
-            print(c)
-               
+            c=shishu(d)              
             a=a*c
-            b=b*c
-            
-        c=shishu(a)
-        
+            b=b*c    
+        c=shishu(a)        
         for i in a.xinxi:
             c.xinxi[i]=a.xinxi[i]/b.xinxi[1]    
         return c    
-        
+    #文本化    
     __str__=__repr__=(lambda self : 
     	                "shishu"+str(self.xinxi).
     	                replace("{","[").
                     	replace("}","]")  
     	             )         
-if __name__=="__main__":    
-       
-    #from cProfile import run
-    d=shishu({
-    	1:fenshu(1),
-    	2:fenshu(1)
-    	}
-    	)
-    e=shishu({
-    	1:fenshu(-1),
-    	2:fenshu(1),
-        3:fenshu(1),
-        5:fenshu(1)
-    	}
-    	)
 
-    c=d/e
-    print(c)
-    
-    
