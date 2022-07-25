@@ -1,12 +1,12 @@
 #导入deepcopy
 from copy import deepcopy
-#对格式进行比较
-bigeshi=lambda a,b:type(a)==type(b)
+#方便对格式进行比较
+isin=isinstance
 #将各种格式转为分数
 def geshihua(shu):
-        if bigeshi(shu,fenshu()):#fenshu
+        if isin(shu,fenshu):#fenshu
             return shu                   
-        elif bigeshi(shu,1) or bigeshi(shu,0.1):
+        elif isin(shu,int) or isin(shu,float):
             return fenshu(shu)
         else: 
             raise Exception("输入错误") 
@@ -14,14 +14,14 @@ def geshihua(shu):
 #分数模块
 class fenshu:
     def __init__(self,zi=0,mu=1):#初始化        
-        if bigeshi(zi,0.1):#float格式
+        if isin(shu,float):#float格式
             self.zi=zi*(10**15)
             self.mu=(10**15)                    
-        elif bigeshi(zi,1):#int格式
+        elif isin(shu,int):#int格式
             self.zi=zi
             self.mu=mu
         else:
-            raise Exception("输入错误,暂不支持文本")#别的奇怪东西
+            raise Exception("输入错误,暂不支持文本")#别的东西
         self.yuefen()    
         
     @property #将方法访问转换成属性访问
@@ -139,10 +139,10 @@ class fenshu:
 class shishu:
     
     def __init__(self,shu=0,dishu=1):      
-        if shu!=0 and bigeshi(shu,shishu()):#实数格式，shu!=1是为了防止无限递推
+        if  isin(shu,shishu):#实数格式
             self.xinxi=deepcopy(shu.xinxi)
             return
-        elif bigeshi(shu,dict()):#dict格式
+        elif isin(shu,dict):#dict格式
             self.xinxi=shu
             return    
         else:
@@ -165,7 +165,7 @@ class shishu:
     #加法    
     def __add__(self,shu):
         linshi=shishu(self)
-        if bigeshi(self,shu):#实数格式
+        if isin(shu,shishu):#实数格式
             for i in shu.xinxi:
                 linshi.jiashu(shu.xinxi[i],i)
                 
@@ -177,7 +177,7 @@ class shishu:
     #减法    
     def __sub__(self,shu):
         linshi=shishu(self)#复制一份       
-        if bigeshi(self,shu):#实数格式
+        if isin(shu,shishu):#实数格式
             for i in shu.xinxi:
                 linshi.jiashu(shu.xinxi[i]*(-1),i)        
         else:#分数，小数
