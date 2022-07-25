@@ -14,10 +14,10 @@ def geshihua(shu):
 #分数模块
 class fenshu:
     def __init__(self,zi=0,mu=1):#初始化        
-        if isin(shu,float):#float格式
+        if isin(zi,float):#float格式
             self.zi=zi*(10**15)
             self.mu=(10**15)                    
-        elif isin(shu,int):#int格式
+        elif isin(zi,int):#int格式
             self.zi=zi
             self.mu=mu
         else:
