@@ -13,24 +13,24 @@ def fromat(shu):
 
 #分数模块
 class Fac:
-    def __init__(self,zi=0,mu=1):#初始化        
-        if isin(zi,float):#float格式
-            self.zi=zi*(10**15)
-            self.mu=(10**15)                    
-        elif isin(zi,int):#int格式
-            self.zi=zi
-            self.mu=mu
+    def __init__(self,num=0,den=1):#初始化        
+        if isin(num,float):#float格式
+            self.num=num*(10**15)
+            self.den=(10**15)                    
+        elif isin(num,int):#int格式
+            self.num=num
+            self.den=den
         else:
             raise Exception("输入错误,暂不支持文本")#别的东西
         self.yuefen()    
         
     @property #将方法访问转换成属性访问
     def zhi(self):#计算
-        if self.zi==0:
-            self.mu=1
+        if self.num==0:
+            self.den=1
             return 0
         else:
-            return self.zi/self.mu 
+            return self.num/self.den 
     
     
             
@@ -44,16 +44,16 @@ class Fac:
                 a=b
                 b=c               
             return a
-        if self.zi==0:#万一分子是零
-            self.mu=1
+        if self.num==0:#万一分子是零
+            self.den=1
             return
-        zi=self.zi
-        mu=self.mu
-        yue=zuidagongyueshu(zi,mu)
-        zi=zi//yue
-        mu=mu//yue      
-        self.zi=int(zi)
-        self.mu=int(mu)
+        num=self.num
+        den=self.den
+        yue=zuidagongyueshu(num,den)
+        num=num//yue
+        den=den//yue      
+        self.num=int(num)
+        self.den=int(den)
     
     #输出数值
     def __float__(self):
@@ -75,30 +75,30 @@ class Fac:
 
     def __add__(self,shu):#加
         shu=fromat(shu)#格式化，兼容int和float
-        zi=self.zi*shu.mu+shu.zi*self.mu
-        mu=self.mu*shu.mu    
-        a=Fac(zi,mu)     
+        num=self.num*shu.den+shu.num*self.den
+        den=self.den*shu.den    
+        a=Fac(num,den)     
         return a
         
     def __sub__(self,shu):#减
         shu=fromat(shu)#兼容
-        zi=self.zi*shu.mu-shu.zi*self.mu
-        mu=self.mu*shu.mu
-        a=Fac(zi,mu)      
+        num=self.num*shu.den-shu.num*self.den
+        den=self.den*shu.den
+        a=Fac(num,den)      
         return a
      
     def __mul__(self,shu):#乘
         shu=fromat(shu)#兼容
-        zi=self.zi*shu.zi      
-        mu=self.mu*shu.mu
-        a=Fac(zi,mu)   
+        num=self.num*shu.num      
+        den=self.den*shu.den
+        a=Fac(num,den)   
         return a
    
     def __truediv__(self,shu):#除
         shu=fromat(shu)#兼容
-        zi=self.zi*shu.mu     
-        mu=self.mu*shu.zi
-        a=Fac(zi,mu)#       
+        num=self.num*shu.den     
+        den=self.den*shu.num
+        a=Fac(num,den)#       
         return a
         
     __div__=__floordiv__=__truediv__#n种除法    
@@ -107,9 +107,9 @@ class Fac:
     #迭代器
     
     def __iter__(self):
-        self.iterzi=self.zi    
+        self.iternum=self.num    
         b=int(self())       
-        self.iterzi-=self.mu*b
+        self.iternum-=self.den*b
         self.iterb=b
         self.iterjishu=1
         return self
@@ -117,9 +117,9 @@ class Fac:
         if self.iterjishu==1:
             self.iterjishu=0
             return self.iterb            
-        self.iterzi=self.iterzi*10000
-        b=int(self.iterzi/self.mu)
-        self.iterzi=self.iterzi-self.mu*b
+        self.iternum=self.iternum*10000
+        b=int(self.iternum/self.den)
+        self.iternum=self.iternum-self.den*b
             
         return b
     #转换成列表
@@ -132,8 +132,8 @@ class Fac:
             
     
     #文本化    
-    __repr__=__str__=lambda self:f"Fac({self.zi}/{self.mu})"
-    __hash__=lambda self:hash((self.zi,self.mu))	  
+    __repr__=__str__=lambda self:f"Fac({self.num}/{self.den})"
+    __hash__=lambda self:hash((self.num,self.den))	  
     
 #实数             
 class AlgNum:
@@ -210,7 +210,7 @@ class AlgNum:
         for linshi in fuzhi:
             
             
-            if fuzhi[linshi].zi==0:
+            if fuzhi[linshi].num==0:
                 del fuzhi2[linshi]
         return fuzhi2          
        
