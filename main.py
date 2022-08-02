@@ -138,7 +138,7 @@ class Fac:
     def list(self,chang=100):
         self.__iter__()
         list1=[]
-        for linshi in range(int(chang/4)):
+        for temp in range(int(chang/4)):
             list1.append(self.__next__())
         return list1   
             
@@ -152,52 +152,52 @@ class AlgNum:
     
     def __init__(self,shu=0,dishu=1):      
         if  isin(shu,AlgNum):#实数格式
-            self.xinxi=deepcopy(shu.xinxi)
+            self.imformation=deepcopy(shu.imformation)
             return
         elif isin(shu,dict):#dict格式
-            self.xinxi=shu
+            self.imformation=shu
             return    
         else:
             shu=fromat(shu)#int float 分数
-            self.xinxi={}
-            self.xinxi[dishu]=shu
-        a=self.huajian()
-        self.xinxi.clear()       
+            self.imformation={}
+            self.imformation[dishu]=shu
+        a=self.simplifications()
+        self.imformation.clear()       
         for i in a:
-            self.xinxi[i]=a[i]
+            self.imformation[i]=a[i]
                 
     
     def jiashu(self,shu,beikaifangshu=1):#添加一个数
-        if not self.xinxi.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self.xinxi[beikaifangshu]+=fromat(shu)
+        if not self.imformation.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
+            self.imformation[beikaifangshu]+=fromat(shu)
         else:                                        #不存在
-            self.xinxi[beikaifangshu]=fromat(shu)
+            self.imformation[beikaifangshu]=fromat(shu)
     #四则运算（除法有bug）
     
     #加法    
     def __add__(self,shu):
-        linshi=AlgNum(self)
+        temp=AlgNum(self)
         if isin(shu,AlgNum):#实数格式
-            for i in shu.xinxi:
-                linshi.jiashu(shu.xinxi[i],i)
+            for i in shu.imformation:
+                temp.jiashu(shu.imformation[i],i)
                 
         else:#分数，小数
             shu=fromat(shu)    
-            linshi.jiashu(shu)
-        return linshi
+            temp.jiashu(shu)
+        return temp
     
     #减法    
     def __sub__(self,shu):
-        linshi=AlgNum(self)#复制一份       
+        temp=AlgNum(self)#复制一份       
         if isin(shu,AlgNum):#实数格式
-            for i in shu.xinxi:
-                linshi.jiashu(shu.xinxi[i]*(-1),i)        
+            for i in shu.imformation:
+                temp.jiashu(shu.imformation[i]*(-1),i)        
         else:#分数，小数
             shu=fromat(shu*(-1))    
-            linshi.jiashu(shu)
-        return linshi
+            temp.jiashu(shu)
+        return temp
     
-    def huajian(self):#化简
+    def simplifications(self):#化简
         def fenjie(a):
             b=1
             c=1
@@ -208,52 +208,52 @@ class AlgNum:
             return b
             
         copy0={}
-        for linshi in self.xinxi:
-            linshi2=linshi
-            linshi3=self.xinxi[linshi2]
-            linshi4=fenjie(linshi)
-            linshi2=linshi2//(linshi4**2)
-            linshi3=linshi3*linshi4           
-            if  copy0.get(linshi2) is None:
-                copy0[linshi2]=fromat(linshi3)                
+        for temp in self.imformation:
+            temp2=temp
+            temp3=self.imformation[temp2]
+            temp4=fenjie(temp)
+            temp2=temp2//(temp4**2)
+            temp3=temp3*temp4           
+            if  copy0.get(temp2) is None:
+                copy0[temp2]=fromat(temp3)                
             else:
-                copy0[linshi2]+=fromat(linshi3)
+                copy0[temp2]+=fromat(temp3)
         copy1=dict(copy0)
-        for linshi in copy0:
+        for temp in copy0:
             
             
-            if copy0[linshi].num==0:
-                del copy1[linshi]
+            if copy0[temp].num==0:
+                del copy1[temp]
         return copy1          
        
     def __mul__(self,shu):#乘法
-        linshi=AlgNum()
-        xinxi1=self.xinxi
-        xinxi2=shu.xinxi
-        for jia in xinxi1:
-            for yi in xinxi2:
-                linshi.jiashu(xinxi1[jia]*xinxi2[yi],beikaifangshu=jia*yi)          
-        return AlgNum(linshi.huajian())       
+        temp=AlgNum()
+        imformation1=self.imformation
+        imformation2=shu.imformation
+        for jia in imformation1:
+            for yi in imformation2:
+                temp.jiashu(imformation1[jia]*imformation2[yi],beikaifangshu=jia*yi)          
+        return AlgNum(temp.simplifications())       
     def __truediv__(self,shu):#除法有BUG
         if len(list(shu))>4:
             raise Exception("理论问题，除数项数不得大于4")
         a=self
         b=shu    
-        if (b.xinxi.get(1) is None):
+        if (b.imformation.get(1) is None):
             a=a*b
             b=b*b        
-        while not (len(b.xinxi)==1):           
-            d=b.xinxi.copy()
+        while not (len(b.imformation)==1):           
+            d=b.imformation.copy()
             d[1]=d[1]*-1
             c=AlgNum(d)              
             a=a*c
             b=b*c    
         c=AlgNum(a)        
-        for i in a.xinxi:
-            c.xinxi[i]=a.xinxi[i]/b.xinxi[1]    
+        for i in a.imformation:
+            c.imformation[i]=a.imformation[i]/b.imformation[1]    
         return c    
     
     #文本化    
-    __str__=(lambda self : "AlgNum"+str(self.xinxi).
+    __str__=(lambda self : "AlgNum"+str(self.imformation).
     	                replace("{","[").replace("}","]") ) 
-    __repr__=(lambda self : "AlgNum("+str(self.xinxi)+")")
+    __repr__=(lambda self : "AlgNum("+str(self.imformation)+")")
