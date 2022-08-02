@@ -22,10 +22,10 @@ class Fac:
             self.den=den
         else:
             raise Exception("输入错误,暂不支持文本")#别的东西
-        self.yuefen()    
+        self.divide()    
         
     @property #将方法访问转换成属性访问
-    def zhi(self):#计算
+    def value(self):#计算
         if self.num==0:
             self.den=1
             return 0
@@ -35,8 +35,8 @@ class Fac:
     
             
                    
-    def yuefen(self):#约分
-        def zuidagongyueshu(a,b):
+    def divide(self):#约分
+        def GCD(a,b):
             #最大公约数之辗转相除法
             c=1
             while not c==0:
@@ -49,7 +49,7 @@ class Fac:
             return
         num=self.num
         den=self.den
-        yue=zuidagongyueshu(num,den)
+        yue=GCD(num,den)
         num=num//yue
         den=den//yue      
         self.num=int(num)
@@ -57,9 +57,9 @@ class Fac:
     
     #输出数值
     def __float__(self):
-        return self.zhi    
+        return self.value    
     __call__=__float__
-    __int__=lambda self:int(self.zhi)
+    __int__=lambda self:int(self.value)
 
 
     #比较      
@@ -195,24 +195,24 @@ class AlgNum:
                     b=c
             return b
             
-        fuzhi={}
+        copy0={}
         for linshi in self.xinxi:
             linshi2=linshi
             linshi3=self.xinxi[linshi2]
             linshi4=fenjie(linshi)
             linshi2=linshi2//(linshi4**2)
             linshi3=linshi3*linshi4           
-            if  fuzhi.get(linshi2) is None:
-                fuzhi[linshi2]=fromat(linshi3)                
+            if  copy0.get(linshi2) is None:
+                copy0[linshi2]=fromat(linshi3)                
             else:
-                fuzhi[linshi2]+=fromat(linshi3)
-        fuzhi2=dict(fuzhi)
-        for linshi in fuzhi:
+                copy0[linshi2]+=fromat(linshi3)
+        copy1=dict(copy0)
+        for linshi in copy0:
             
             
-            if fuzhi[linshi].num==0:
-                del fuzhi2[linshi]
-        return fuzhi2          
+            if copy0[linshi].num==0:
+                del copy1[linshi]
+        return copy1          
        
     def __mul__(self,shu):#乘法
         linshi=AlgNum()
