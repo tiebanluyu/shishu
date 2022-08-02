@@ -15,7 +15,7 @@ from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
 #将各种格式转为分数
-def fromat(number):
+def format(number):
         if isin(number,Fac):#分数
             return number                   
         elif isin(number,int) or isin(number,float):
@@ -86,28 +86,28 @@ class Fac:
     #四则运算      
 
     def __add__(self,number):#加
-        number=fromat(number)#格式化，兼容int和float
+        number=format(number)#格式化，兼容int和float
         num=self.num*number.den+number.num*self.den
         den=self.den*number.den    
         a=Fac(num,den)     
         return a
         
     def __sub__(self,number):#减
-        number=fromat(number)#兼容
+        number=format(number)#兼容
         num=self.num*number.den-number.num*self.den
         den=self.den*number.den
         a=Fac(num,den)      
         return a
      
     def __mul__(self,number):#乘
-        number=fromat(number)#兼容
+        number=format(number)#兼容
         num=self.num*number.num      
         den=self.den*number.den
         a=Fac(num,den)   
         return a
    
     def __truediv__(self,number):#除
-        number=fromat(number)#兼容
+        number=format(number)#兼容
         num=self.num*number.den     
         den=self.den*number.num
         a=Fac(num,den)#       
@@ -158,7 +158,7 @@ class AlgNum:
             self.imformation=number
             return    
         else:
-            number=fromat(number)#int float 分数
+            number=format(number)#int float 分数
             self.imformation={}
             self.imformation[dishu]=number
         a=self.simplifications()
@@ -169,9 +169,9 @@ class AlgNum:
     
     def jiashu(self,number,beikaifangshu=1):#添加一个数
         if not self.imformation.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self.imformation[beikaifangshu]+=fromat(number)
+            self.imformation[beikaifangshu]+=format(number)
         else:                                        #不存在
-            self.imformation[beikaifangshu]=fromat(number)
+            self.imformation[beikaifangshu]=format(number)
     #四则运算（除法有bug）
     
     #加法    
@@ -182,7 +182,7 @@ class AlgNum:
                 temp.jiashu(number.imformation[i],i)
                 
         else:#分数，小数
-            number=fromat(number)    
+            number=format(number)    
             temp.jiashu(number)
         return temp
     
@@ -193,7 +193,7 @@ class AlgNum:
             for i in number.imformation:
                 temp.jiashu(number.imformation[i]*(-1),i)        
         else:#分数，小数
-            number=fromat(number*(-1))    
+            number=format(number*(-1))    
             temp.jiashu(number)
         return temp
     
@@ -215,9 +215,9 @@ class AlgNum:
             temp2=temp2//(temp4**2)
             temp3=temp3*temp4           
             if  copy0.get(temp2) is None:
-                copy0[temp2]=fromat(temp3)                
+                copy0[temp2]=format(temp3)                
             else:
-                copy0[temp2]+=fromat(temp3)
+                copy0[temp2]+=format(temp3)
         copy1=dict(copy0)
         for temp in copy0:
             
