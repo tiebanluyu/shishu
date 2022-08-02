@@ -3,16 +3,16 @@ from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
 #将各种格式转为分数
-def geshihua(shu):
-        if isin(shu,fenshu):#fenshu
+def fromat(shu):
+        if isin(shu,Fac):#分数
             return shu                   
         elif isin(shu,int) or isin(shu,float):
-            return fenshu(shu)
+            return Fac(shu)
         else: 
             raise Exception("输入错误") 
 
 #分数模块
-class fenshu:
+class Fac:
     def __init__(self,zi=0,mu=1):#初始化        
         if isin(zi,float):#float格式
             self.zi=zi*(10**15)
@@ -74,31 +74,31 @@ class fenshu:
     #四则运算      
 
     def __add__(self,shu):#加
-        shu=geshihua(shu)#格式化，兼容int和float
+        shu=fromat(shu)#格式化，兼容int和float
         zi=self.zi*shu.mu+shu.zi*self.mu
         mu=self.mu*shu.mu    
-        a=fenshu(zi,mu)     
+        a=Fac(zi,mu)     
         return a
         
     def __sub__(self,shu):#减
-        shu=geshihua(shu)#兼容
+        shu=fromat(shu)#兼容
         zi=self.zi*shu.mu-shu.zi*self.mu
         mu=self.mu*shu.mu
-        a=fenshu(zi,mu)      
+        a=Fac(zi,mu)      
         return a
      
     def __mul__(self,shu):#乘
-        shu=geshihua(shu)#兼容
+        shu=fromat(shu)#兼容
         zi=self.zi*shu.zi      
         mu=self.mu*shu.mu
-        a=fenshu(zi,mu)   
+        a=Fac(zi,mu)   
         return a
    
     def __truediv__(self,shu):#除
-        shu=geshihua(shu)#兼容
+        shu=fromat(shu)#兼容
         zi=self.zi*shu.mu     
         mu=self.mu*shu.zi
-        a=fenshu(zi,mu)#       
+        a=Fac(zi,mu)#       
         return a
         
     __div__=__floordiv__=__truediv__#n种除法    
@@ -132,21 +132,21 @@ class fenshu:
             
     
     #文本化    
-    __repr__=__str__=lambda self:f"fenshu({self.zi}/{self.mu})"
+    __repr__=__str__=lambda self:f"Fac({self.zi}/{self.mu})"
     __hash__=lambda self:hash((self.zi,self.mu))	  
     
 #实数             
-class shishu:
+class AlgNum:
     
     def __init__(self,shu=0,dishu=1):      
-        if  isin(shu,shishu):#实数格式
+        if  isin(shu,AlgNum):#实数格式
             self.xinxi=deepcopy(shu.xinxi)
             return
         elif isin(shu,dict):#dict格式
             self.xinxi=shu
             return    
         else:
-            shu=geshihua(shu)#int float 分数
+            shu=fromat(shu)#int float 分数
             self.xinxi={}
             self.xinxi[dishu]=shu
         a=self.huajian()
@@ -157,31 +157,31 @@ class shishu:
     
     def jiashu(self,shu,beikaifangshu=1):#添加一个数
         if not self.xinxi.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self.xinxi[beikaifangshu]+=geshihua(shu)
+            self.xinxi[beikaifangshu]+=fromat(shu)
         else:                                        #不存在
-            self.xinxi[beikaifangshu]=geshihua(shu)
+            self.xinxi[beikaifangshu]=fromat(shu)
     #四则运算（除法有bug）
     
     #加法    
     def __add__(self,shu):
-        linshi=shishu(self)
-        if isin(shu,shishu):#实数格式
+        linshi=AlgNum(self)
+        if isin(shu,AlgNum):#实数格式
             for i in shu.xinxi:
                 linshi.jiashu(shu.xinxi[i],i)
                 
         else:#分数，小数
-            shu=geshihua(shu)    
+            shu=fromat(shu)    
             linshi.jiashu(shu)
         return linshi
     
     #减法    
     def __sub__(self,shu):
-        linshi=shishu(self)#复制一份       
-        if isin(shu,shishu):#实数格式
+        linshi=AlgNum(self)#复制一份       
+        if isin(shu,AlgNum):#实数格式
             for i in shu.xinxi:
                 linshi.jiashu(shu.xinxi[i]*(-1),i)        
         else:#分数，小数
-            shu=geshihua(shu*(-1))    
+            shu=fromat(shu*(-1))    
             linshi.jiashu(shu)
         return linshi
     
@@ -203,9 +203,9 @@ class shishu:
             linshi2=linshi2//(linshi4**2)
             linshi3=linshi3*linshi4           
             if  fuzhi.get(linshi2) is None:
-                fuzhi[linshi2]=geshihua(linshi3)                
+                fuzhi[linshi2]=fromat(linshi3)                
             else:
-                fuzhi[linshi2]+=geshihua(linshi3)
+                fuzhi[linshi2]+=fromat(linshi3)
         fuzhi2=dict(fuzhi)
         for linshi in fuzhi:
             
@@ -215,13 +215,13 @@ class shishu:
         return fuzhi2          
        
     def __mul__(self,shu):#乘法
-        linshi=shishu()
+        linshi=AlgNum()
         xinxi1=self.xinxi
         xinxi2=shu.xinxi
         for jia in xinxi1:
             for yi in xinxi2:
                 linshi.jiashu(xinxi1[jia]*xinxi2[yi],beikaifangshu=jia*yi)          
-        return shishu(linshi.huajian())       
+        return AlgNum(linshi.huajian())       
     def __truediv__(self,shu):#除法有BUG
         if len(list(shu))>4:
             raise Exception("理论问题，除数项数不得大于4")
@@ -233,15 +233,15 @@ class shishu:
         while not (len(b.xinxi)==1):           
             d=b.xinxi.copy()
             d[1]=d[1]*-1
-            c=shishu(d)              
+            c=AlgNum(d)              
             a=a*c
             b=b*c    
-        c=shishu(a)        
+        c=AlgNum(a)        
         for i in a.xinxi:
             c.xinxi[i]=a.xinxi[i]/b.xinxi[1]    
         return c    
     
     #文本化    
-    __str__=(lambda self : "shishu"+str(self.xinxi).
+    __str__=(lambda self : "AlgNum"+str(self.xinxi).
     	                replace("{","[").replace("}","]") ) 
-    __repr__=(lambda self : "shishu("+str(self.xinxi)+")")
+    __repr__=(lambda self : "AlgNum("+str(self.xinxi)+")")
