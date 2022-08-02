@@ -15,11 +15,11 @@ from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
 #将各种格式转为分数
-def fromat(shu):
-        if isin(shu,Fac):#分数
-            return shu                   
-        elif isin(shu,int) or isin(shu,float):
-            return Fac(shu)
+def fromat(number):
+        if isin(number,Fac):#分数
+            return number                   
+        elif isin(number,int) or isin(number,float):
+            return Fac(number)
         else: 
             raise Exception("输入错误") 
 
@@ -75,41 +75,41 @@ class Fac:
 
 
     #比较      
-    __lt__=lambda self,shu:self()<shu()#小于
-    __gt__=lambda self,shu:self()>shu()#大于
-    __le__=lambda self,shu:self()<=shu()#小于等于
-    __ge__=lambda self,shu:self()>=shu()#大于等于
-    __eq__=lambda self,shu:self()==shu()#等于
-    __ne__=lambda self,shu:self()!=shu()#不等于
+    __lt__=lambda self,number:self()<number()#小于
+    __gt__=lambda self,number:self()>number()#大于
+    __le__=lambda self,number:self()<=number()#小于等于
+    __ge__=lambda self,number:self()>=number()#大于等于
+    __eq__=lambda self,number:self()==number()#等于
+    __ne__=lambda self,number:self()!=number()#不等于
             
     
     #四则运算      
 
-    def __add__(self,shu):#加
-        shu=fromat(shu)#格式化，兼容int和float
-        num=self.num*shu.den+shu.num*self.den
-        den=self.den*shu.den    
+    def __add__(self,number):#加
+        number=fromat(number)#格式化，兼容int和float
+        num=self.num*number.den+number.num*self.den
+        den=self.den*number.den    
         a=Fac(num,den)     
         return a
         
-    def __sub__(self,shu):#减
-        shu=fromat(shu)#兼容
-        num=self.num*shu.den-shu.num*self.den
-        den=self.den*shu.den
+    def __sub__(self,number):#减
+        number=fromat(number)#兼容
+        num=self.num*number.den-number.num*self.den
+        den=self.den*number.den
         a=Fac(num,den)      
         return a
      
-    def __mul__(self,shu):#乘
-        shu=fromat(shu)#兼容
-        num=self.num*shu.num      
-        den=self.den*shu.den
+    def __mul__(self,number):#乘
+        number=fromat(number)#兼容
+        num=self.num*number.num      
+        den=self.den*number.den
         a=Fac(num,den)   
         return a
    
-    def __truediv__(self,shu):#除
-        shu=fromat(shu)#兼容
-        num=self.num*shu.den     
-        den=self.den*shu.num
+    def __truediv__(self,number):#除
+        number=fromat(number)#兼容
+        num=self.num*number.den     
+        den=self.den*number.num
         a=Fac(num,den)#       
         return a
         
@@ -123,11 +123,11 @@ class Fac:
         b=int(self())       
         self.iternum-=self.den*b
         self.iterb=b
-        self.iterjishu=1
+        self.itercount=1
         return self
     def __next__(self):
-        if self.iterjishu==1:
-            self.iterjishu=0
+        if self.itercount==1:
+            self.itercount=0
             return self.iterb            
         self.iternum=self.iternum*10000
         b=int(self.iternum/self.den)
@@ -135,10 +135,10 @@ class Fac:
             
         return b
     #转换成列表
-    def list(self,chang=100):
+    def list(self,length=100):
         self.__iter__()
         list1=[]
-        for temp in range(int(chang/4)):
+        for temp in range(int(length/4)):
             list1.append(self.__next__())
         return list1   
             
@@ -150,51 +150,51 @@ class Fac:
 #实数             
 class AlgNum:
     
-    def __init__(self,shu=0,dishu=1):      
-        if  isin(shu,AlgNum):#实数格式
-            self.imformation=deepcopy(shu.imformation)
+    def __init__(self,number=0,dishu=1):      
+        if  isin(number,AlgNum):#实数格式
+            self.imformation=deepcopy(number.imformation)
             return
-        elif isin(shu,dict):#dict格式
-            self.imformation=shu
+        elif isin(number,dict):#dict格式
+            self.imformation=number
             return    
         else:
-            shu=fromat(shu)#int float 分数
+            number=fromat(number)#int float 分数
             self.imformation={}
-            self.imformation[dishu]=shu
+            self.imformation[dishu]=number
         a=self.simplifications()
         self.imformation.clear()       
         for i in a:
             self.imformation[i]=a[i]
                 
     
-    def jiashu(self,shu,beikaifangshu=1):#添加一个数
+    def jiashu(self,number,beikaifangshu=1):#添加一个数
         if not self.imformation.get(beikaifangshu) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self.imformation[beikaifangshu]+=fromat(shu)
+            self.imformation[beikaifangshu]+=fromat(number)
         else:                                        #不存在
-            self.imformation[beikaifangshu]=fromat(shu)
+            self.imformation[beikaifangshu]=fromat(number)
     #四则运算（除法有bug）
     
     #加法    
-    def __add__(self,shu):
+    def __add__(self,number):
         temp=AlgNum(self)
-        if isin(shu,AlgNum):#实数格式
-            for i in shu.imformation:
-                temp.jiashu(shu.imformation[i],i)
+        if isin(number,AlgNum):#实数格式
+            for i in number.imformation:
+                temp.jiashu(number.imformation[i],i)
                 
         else:#分数，小数
-            shu=fromat(shu)    
-            temp.jiashu(shu)
+            number=fromat(number)    
+            temp.jiashu(number)
         return temp
     
     #减法    
-    def __sub__(self,shu):
+    def __sub__(self,number):
         temp=AlgNum(self)#复制一份       
-        if isin(shu,AlgNum):#实数格式
-            for i in shu.imformation:
-                temp.jiashu(shu.imformation[i]*(-1),i)        
+        if isin(number,AlgNum):#实数格式
+            for i in number.imformation:
+                temp.jiashu(number.imformation[i]*(-1),i)        
         else:#分数，小数
-            shu=fromat(shu*(-1))    
-            temp.jiashu(shu)
+            number=fromat(number*(-1))    
+            temp.jiashu(number)
         return temp
     
     def simplifications(self):#化简
@@ -226,19 +226,19 @@ class AlgNum:
                 del copy1[temp]
         return copy1          
        
-    def __mul__(self,shu):#乘法
+    def __mul__(self,number):#乘法
         temp=AlgNum()
         imformation1=self.imformation
-        imformation2=shu.imformation
+        imformation2=number.imformation
         for jia in imformation1:
             for yi in imformation2:
                 temp.jiashu(imformation1[jia]*imformation2[yi],beikaifangshu=jia*yi)          
         return AlgNum(temp.simplifications())       
-    def __truediv__(self,shu):#除法有BUG
-        if len(list(shu))>4:
+    def __truediv__(self,number):#除法有BUG
+        if len(list(number))>4:
             raise Exception("理论问题，除数项数不得大于4")
         a=self
-        b=shu    
+        b=number    
         if (b.imformation.get(1) is None):
             a=a*b
             b=b*b        
