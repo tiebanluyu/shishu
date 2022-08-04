@@ -164,10 +164,10 @@ class AlgNum:
                 
     
     def jiashu(self,number,root=1):#添加一个数
-        if not self.data.get(root) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self.data[root]+=format(number)
-        else:                                        #不存在
+        if self.data.get(root) is None:#已存在，get方法存在则返回切片值，否则返回None
             self.data[root]=format(number)
+        else:                                        #不存在
+            self.data[root]+=format(number)
     #四则运算（除法有bug）
     
     #加法    
@@ -231,19 +231,39 @@ class AlgNum:
                 temp.jiashu(data1[jia]*data2[yi],root=jia*yi)          
         return AlgNum(temp.simplifications())       
     def __truediv__(self,number):#除法有BUG
-        if len(list(number))>4:
+        g=len(list(number))
+        if g>4:
             raise Exception("理论问题，除数项数不得大于4")
         a=self
         b=number    
         if (b.data.get(1) is None):
             a=a*b
             b=b*b        
-        while not (len(b.data)==1):           
+        if g==4:
             d=b.data.copy()
             d[1]=d[1]*-1
             c=AlgNum(d)              
             a=a*c
-            b=b*c    
+            b=b*c
+            print(c)
+            
+            d=sorted(list(b.data)) 
+            print(d)
+            e=AlgNum(b.data[d[1]],base=d[1])
+            f=AlgNum(b.data[d[2]],base=d[2])
+            print(e,f)
+            c=(e-1)*(f-1)  
+            a=a*c
+            b=b*c
+        if g<4:    
+            while not (len(b.data)==1):           
+            
+                d=b.data.copy()
+                d[1]=d[1]*-1
+                c=AlgNum(d)              
+                a=a*c
+                b=b*c
+                print(c)
         c=AlgNum(a)        
         for i in a.data:
             c.data[i]=a.data[i]/b.data[1]    
@@ -253,3 +273,21 @@ class AlgNum:
     __str__=(lambda self : "AlgNum"+str(self.data).
     	                replace("{","[").replace("}","]") ) 
     __repr__=(lambda self : "AlgNum("+str(self.data)+")")
+
+    __iter__=(lambda self:iter(self.data))
+
+
+
+
+
+
+
+
+a=AlgNum({1:Fac(1)})
+
+b=AlgNum({1:Fac(1),2:Fac(1),5:Fac(1),10:Fac(1)})
+
+c=a/b
+
+print(c)
+
