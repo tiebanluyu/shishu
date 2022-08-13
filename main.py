@@ -232,38 +232,22 @@ class AlgNum:
         return AlgNum(temp.simplifications())       
     def __truediv__(self,number):#除法有BUG
         g=len(list(number))
-        if g>4:
+        if g>=4:
             raise Exception("理论问题，除数项数不得大于4")
         a=self
         b=number    
         if (b.data.get(1) is None):
             a=a*b
             b=b*b        
-        if g==4:
+        
+        while not (len(b.data)==1):           
+            
             d=b.data.copy()
             d[1]=d[1]*-1
             c=AlgNum(d)              
             a=a*c
             b=b*c
-            print(c)
-            
-            d=sorted(list(b.data)) 
-            print(d)
-            e=AlgNum(b.data[d[1]],base=d[1])
-            f=AlgNum(b.data[d[2]],base=d[2])
-            print(e,f)
-            c=(e-1)*(f-1)  
-            a=a*c
-            b=b*c
-        if g<4:    
-            while not (len(b.data)==1):           
-            
-                d=b.data.copy()
-                d[1]=d[1]*-1
-                c=AlgNum(d)              
-                a=a*c
-                b=b*c
-                print(c)
+                
         c=AlgNum(a)        
         for i in a.data:
             c.data[i]=a.data[i]/b.data[1]    
