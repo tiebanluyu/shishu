@@ -9,7 +9,6 @@ EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT,
 MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 """
-
 #导入deepcopy
 from copy import deepcopy
 #方便对格式进行比较
@@ -21,7 +20,7 @@ def format(number):
         elif isin(number,int) or isin(number,float):
             return Fac(number)
         else: 
-            raise Exception("输入错误") 
+            raise TypeError("UnexceptType") 
 
 #分数模块
 class Fac:
@@ -33,7 +32,7 @@ class Fac:
             self.num=num
             self.den=den
         else:
-            raise Exception("输入错误,暂不支持文本")#别的东西
+            raise  TypeError("UnexceptType")#别的东西
         self.divide()    
         
     @property #将方法访问转换成属性访问
@@ -74,13 +73,13 @@ class Fac:
     __int__=lambda self:int(self.value)
 
 
-    #比较      
-    __lt__=lambda self,number:self()<number()#小于
-    __gt__=lambda self,number:self()>number()#大于
-    __le__=lambda self,number:self()<=number()#小于等于
-    __ge__=lambda self,number:self()>=number()#大于等于
-    __eq__=lambda self,number:self()==number()#等于
-    __ne__=lambda self,number:self()!=number()#不等于
+    #比较,fromat是为了接纳其他类型      
+    __lt__=lambda self,number:self()<fromat(number)()#小于
+    __gt__=lambda self,number:self()>fromat(number)()#大于
+    __le__=lambda self,number:self()<=fromat(number)()#小于等于
+    __ge__=lambda self,number:self()>=fromat(number)()#大于等于
+    __eq__=lambda self,number:self()==fromat(number)()#等于
+    __ne__=lambda self,number:self()!=fromat(number)()#不等于
             
     
     #四则运算      
@@ -110,6 +109,14 @@ class Fac:
         return Fac(num,den)
         
     __div__=__floordiv__=__truediv__#n种除法    
+    #反运算
+    __radd__=__add__
+    __rmul__=__mul__
+    __rsub__=lambda self,number:fromat(number)-self
+
+    __rtruediv__=lambda self,number:fromat(number)/self
+    __rdiv__=__rfloordiv__=__rtruediv__#n种除法
+
      
     
     #迭代器
@@ -168,7 +175,7 @@ class AlgNum:
             self.data[root]=format(number)
         else:                                        #不存在
             self.data[root]+=format(number)
-    #四则运算（除法有bug）
+    #四则运算
     
     #加法    
     def __add__(self,number):
@@ -193,7 +200,7 @@ class AlgNum:
             temp.jiashu(number)
         return temp
     
-    def simplifications(self):#化简
+    def simplifications(self):#化简，暂时不动
         def fenjie(a):
             b=1
             c=1
@@ -216,8 +223,6 @@ class AlgNum:
                 copy0[temp2]+=format(temp3)
         copy1=dict(copy0)
         for temp in copy0:
-            
-            
             if copy0[temp].num==0:
                 del copy1[temp]
         return copy1          
@@ -230,18 +235,15 @@ class AlgNum:
             for yi in data2:
                 temp.jiashu(data1[jia]*data2[yi],root=jia*yi)          
         return AlgNum(temp.simplifications())       
-    def __truediv__(self,number):#除法有BUG
-        g=len(list(number))
-        if g>=4:
-            raise Exception("理论问题，除数项数不得大于4")
+    def __truediv__(self,number):#除法
+        if len(list(number))>=4:
+            raise Exception("理论问题，除数项数不得大于3")
         a=self
         b=number    
         if (b.data.get(1) is None):
             a=a*b
-            b=b*b        
-        
-        while not (len(b.data)==1):           
-            
+            b=b*b            
+        while not (len(b.data)==1):                     
             d=b.data.copy()
             d[1]=d[1]*-1
             c=AlgNum(d)              
@@ -252,26 +254,34 @@ class AlgNum:
         for i in a.data:
             c.data[i]=a.data[i]/b.data[1]    
         return c    
-    
+     #反运算
+
+    __radd__=lambda self,number:AlgNum(number)+self
+
+    __rmul__=lambda self,number:AlgNum(number)*self
+
+    __rsub__=lambda self,number:AlgNum(number)-self
+
+    __rtruediv__=lambda self,number:AlgNum(number)/self
+
+    __rdiv__=__rfloordiv__=__rtruediv__#n种除法
     #文本化    
     __str__=(lambda self : "AlgNum"+str(self.data).
     	                replace("{","[").replace("}","]") ) 
     __repr__=(lambda self : "AlgNum("+str(self.data)+")")
 
-    __iter__=(lambda self:iter(self.data))
+
+def sqrt(num):
+    """开平方
+
+       可以这么写
+        a=1*sqrt(13)+2*sqrt(5)
+     """
+    return AlgNum(number=1,base=num)
 
 
 
 
 
 
-
-
-a=AlgNum({1:Fac(1)})
-
-b=AlgNum({1:Fac(1),2:Fac(1),5:Fac(1),10:Fac(1)})
-
-c=a/b
-
-print(c)
 
