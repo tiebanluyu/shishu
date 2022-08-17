@@ -10,7 +10,7 @@ The procedure that can only be counted as 15 digit Pi is the same as none.
 
 ## 2. The accuracy is lost.
 
-There will be errors in each floating-point operation. Even 0.1 + 0.2 = 0.3 is not correct.
+There will be errors in each floating-point operation. Even 0.1 + 0.2 == 0.3 is not correct.
 
 Since Moore's law gives us powerful computing power, why can't you improve the accuracy again?
 
@@ -20,9 +20,9 @@ You want to multiply the root two by the root three. I want to get the root six,
 
 But think about it with your toes
 
-Python (other languages are similar) will definitely not give you a root sign of 6.
+Python(other languages are similar) will definitely not give you a root sign of 6.
 
-# So, I created two data types: scores and real numbers
+# So, I created two data types: Faction and Algebraic number
 
 ## There are ways to create.
 
@@ -54,9 +54,9 @@ __ A() can return a fractional value, but a real number cannot be used__
 
 The integer part is returned for the first time, and the rest is the decimal part.
 
-Four bits are returned at a time. Int format
+Four bits are returned at a time with Int format.
 
-Infinite iteration, please use break
+Infinite iteration, please use  **break** 
 
 
 
@@ -64,10 +64,10 @@ Otherwise, there will be an endless cycle
 
 ······
 
-But you can use the list method to pass in the length and return the specified long list format
+But you can use the  **list**  method to pass in the length and return the specified long list format
 
 ##Conversion
 
-__ Real numbers cannot be converted at present__
+__ Algebraic number cannot be converted at present__
 
 __ Scores can be obtained using a Value float (a) a() use__
