@@ -1,6 +1,7 @@
 
 
 # 介绍
+[English readme](http://gitee.com/lululu11/shishu/README.en.md)
 现有的数据类型浮点数在某些地方不适用。
 ## 1. 精度限制。
 要么10，要么15位。这在某些地方是致命的。比如圆周率的计算中。
