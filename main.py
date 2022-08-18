@@ -1,4 +1,4 @@
-"""
+﻿"""
 Copyright (c) 2022 铁板烤鲈鱼
 shishu is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
@@ -13,14 +13,7 @@ See the Mulan PSL v2 for more details.
 from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
-#将各种格式转为分数
-def format(number):
-        if isin(number,Fac):#分数
-            return number                   
-        elif isin(number,int) or isin(number,float):
-            return Fac(number)
-        else: 
-            raise TypeError("UnexceptType") 
+
 
 #分数模块
 class Fac:
@@ -269,8 +262,15 @@ class AlgNum:
     __str__=(lambda self : "AlgNum"+str(self.data).
     	                replace("{","[").replace("}","]") ) 
     __repr__=(lambda self : "AlgNum("+str(self.data)+")")
-
-
+ 
+#将各种格式转为分数
+def format(number):
+        if isin(number,Fac):#分数
+            return number                   
+        elif isin(number,int) or isin(number,float):
+            return Fac(number)
+        else: 
+            raise TypeError("UnexceptType") 
 def sqrt(num):
     """开平方
 
