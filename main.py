@@ -10,6 +10,7 @@ MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 """
 #导入deepcopy
+from objprint import *
 from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
@@ -143,7 +144,8 @@ class Fac:
     __repr__=__str__=lambda self:f"Fac({self.num}/{self.den})"
     __hash__=lambda self:hash((self.num,self.den))	  
     
-#实数             
+#实数 
+@add_objprint            
 class AlgNum:
     
     def __init__(self,number=0,base=1):      
@@ -194,7 +196,7 @@ class AlgNum:
         return temp
     
     def simplifications(self):#化简，暂时不动
-        def fenjie(a):
+        def decompose(a):
             b=1
             c=1
             while c**2<a:
@@ -207,7 +209,7 @@ class AlgNum:
         for temp in self.data:
             temp2=temp
             temp3=self.data[temp2]
-            temp4=fenjie(temp)
+            temp4=decompose(temp)
             temp2=temp2//(temp4**2)
             temp3=temp3*temp4           
             if  copy0.get(temp2) is None:
@@ -249,19 +251,21 @@ class AlgNum:
         return c    
      #反运算
 
-    __radd__=lambda self,number:AlgNum(number)+self
+    __radd__=lambda self,number:AlgNum(number)+self#加
 
-    __rmul__=lambda self,number:AlgNum(number)*self
+    __rmul__=lambda self,number:AlgNum(number)*self#乘
 
-    __rsub__=lambda self,number:AlgNum(number)-self
+    __rsub__=lambda self,number:AlgNum(number)-self#减
 
-    __rtruediv__=lambda self,number:AlgNum(number)/self
+    __rtruediv__=lambda self,number:AlgNum(number)/self#除
 
     __rdiv__=__rfloordiv__=__rtruediv__#n种除法
+    
     #文本化    
     __str__=(lambda self : "AlgNum"+str(self.data).
     	                replace("{","[").replace("}","]") ) 
     __repr__=(lambda self : "AlgNum("+str(self.data)+")")
+
  
 #将各种格式转为分数
 def format(number):
@@ -279,7 +283,9 @@ def sqrt(num):
      """
     return AlgNum(number=1,base=num)
 
-
+if __name__=="__main__":
+    a=1.2*sqrt(1234)
+    op(a)
 
 
 
