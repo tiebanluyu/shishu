@@ -1,4 +1,4 @@
-﻿"""
+"""
 Copyright (c) 2022 铁板烤鲈鱼
 shishu is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
@@ -57,8 +57,8 @@ class Fac:
         yue=GCD(num,den)
         num=num//yue
         den=den//yue      
-        self.num=int(num)
-        self.den=int(den)
+        self.num=num
+        self.den=den
     
     #输出数值
     def __float__(self):
@@ -85,19 +85,19 @@ class Fac:
         return Fac(num,den)
         
     def __sub__(self,number):#减
-        number=format(number)#兼容
+        number=format(number)
         num=self.num*number.den-number.num*self.den
         den=self.den*number.den      
         return Fac(num,den)
      
     def __mul__(self,number):#乘
-        number=format(number)#兼容
+        number=format(number)
         num=self.num*number.num      
         den=self.den*number.den   
         return Fac(num,den)
    
     def __truediv__(self,number):#除
-        number=format(number)#兼容
+        number=format(number)
         num=self.num*number.den     
         den=self.den*number.num   
         return Fac(num,den)
@@ -148,7 +148,7 @@ class Fac:
 @add_objprint            
 class AlgNum:
     
-    def __init__(self,number=0,base=1):      
+    def __init__(self,number:ANY=0,base=1):      
         if  isin(number,AlgNum):#实数格式
             self.data=deepcopy(number.data)
             return
@@ -165,7 +165,7 @@ class AlgNum:
             self.data[i]=a[i]
                 
     
-    def jiashu(self,number,root=1):#添加一个数
+    def toaddd(self,number,root=1):#添加一个数
         if self.data.get(root) is None:#已存在，get方法存在则返回切片值，否则返回None
             self.data[root]=format(number)
         else:                                        #不存在
@@ -177,11 +177,11 @@ class AlgNum:
         temp=AlgNum(self)
         if isin(number,AlgNum):#实数格式
             for i in number.data:
-                temp.jiashu(number.data[i],i)
+                temp.t(number.data[i],i)
                 
         else:#分数，小数
             number=format(number)    
-            temp.jiashu(number)
+            temp.toadd(number)
         return temp
     
     #减法    
