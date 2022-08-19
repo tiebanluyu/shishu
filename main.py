@@ -1,4 +1,4 @@
-"""
+﻿"""
 Copyright (c) 2022 铁板烤鲈鱼
 shishu is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
@@ -117,7 +117,7 @@ class Fac:
     
     def __iter__(self):
         self.iternum=self.num    
-        b=int(self())       
+        b=int(self.zi//self.mu)       
         self.iternum-=self.den*b
         self.iterb=b
         self.itercount=1
@@ -148,7 +148,7 @@ class Fac:
 @add_objprint            
 class AlgNum:
     
-    def __init__(self,number:ANY=0,base=1):      
+    def __init__(self,number:any=0,base:int=1):      
         if  isin(number,AlgNum):#实数格式
             self.data=deepcopy(number.data)
             return
@@ -228,7 +228,7 @@ class AlgNum:
         data2=number.data
         for jia in data1:
             for yi in data2:
-                temp.jiashu(data1[jia]*data2[yi],root=jia*yi)          
+                temp.toadd(data1[jia]*data2[yi],root=jia*yi)          
         return AlgNum(temp.simplifications())       
     def __truediv__(self,number):#除法
         if len(list(number))>=4:
