@@ -1,43 +1,57 @@
+﻿# README
+
+The existing data type floating-point numbers are not applicable in some places.
+
+## 1. Accuracy limit.
+
+Either 10 or 15. This is fatal in some places. For example, in the calculation of the PI.
+
+The procedure that can only be counted as 15 digit Pi is the same as none.
+
+## 2. The accuracy is lost.
+
+There will be errors in each floating-point operation. Even 0.1 + 0.2 == 0.3 is not correct.
+
+Since Moore's law gives us powerful computing power, why can't you improve the accuracy again?
+
+## 3. Not easy to read
+
+You want to multiply the root two by the root three. I want to get the root six,
+
+But think about it with your mind
+
+Python(other languages are similar) will definitely not give you a root sign of six.
+
+# So lots of developers create various resolvent.So as me. 
 
 
-# 介绍
-[English readme](http://gitee.com/lululu11/shishu/README.en.md)
-现有的数据类型浮点数在某些地方不适用。
-## 1. 精度限制。
-要么10，要么15位。这在某些地方是致命的。比如圆周率的计算中。
-只能算是十五位圆周率的程序跟没有一样。
-## 2. 精度丢失。
-每一次浮点数的运算都会存在误差。连0.1+0.2=0.3都算不对。
-既然摩尔定律给了我们强大的算力，你为什么不能再提高一次精度？
-## 3. 不易读
-你想算根号二乘根号三。想得到根号六，
-但你用你的脚趾头想想就知道
-python（其他语言也差不多）肯定不会给你根号6的。
-# 所以，我创造了两个数据类型：分数和实数
-## 下面有创造方式。
+## There are ways to create.
+
+
 
 ```
-a=Fac(0.1)#浮点数
-b=Fac(1)#整数
-c=Fac(1,2)#前面是分子，后面是分母。
-d=AlgNum(a)#分数或整数浮点数
-e=AlgNum({2：Fac（1），5：Fac（3）})#传入一个字典，每一项键是根号下的数（要求int格式），值是Fac格式
-f=12*sqrt(2)+2*sqrt(5)#另一种方式
+
+
+A = Algnum (a) # fraction , integer or floating point number
+
+B = Algnum ({2: fraction(1), 5: fraction(3)}) 
+ 
+pass in a dictionary. 
+Each key is the number under the root sign (int format is required).
+and the value is in Fraction format.
+
+C = 12 * sqrt (2) + 2 * sqrt (5) # another method
+
 ```
-__分数和实数与现有数据之间可以互相加减乘除。但是实数除法除数不得超过3项__
 
-__a()可以返回分数值，实数不能用__
-## 分数是可迭代的，
-第一次返回整数部分，之后的都是小数部分。
-一次返回四位。int格式
-无限迭代，请用break
+__  real numbers can be added, subtracted, multiplied and divided . But the divisor of real number division shall not exceed 3 items__
 
-否则会死循环
-······
-但你可以用list方法，传入长度，返回指定长list格式
-## 转换
-__实数目前转换不了__
-__分数可以使用a.value   float（a）  a()使用__
 
-    
-    
+
+
+
+
+
+
+
+
