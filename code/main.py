@@ -1,4 +1,4 @@
-﻿"""
+"""
 Copyright (c) 2022 铁板烤鲈鱼
 shishu is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
@@ -10,14 +10,13 @@ MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
 See the Mulan PSL v2 for more details.
 """
 #导入deepcopy
-from objprint import *
 from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
-from fractions import Fraction
+from fractions import Fraction as officialFraction
 
 #分数模块
-class Fac(Fraction):
+class Fraction(officialFraction):
     
     
     #迭代器
@@ -49,8 +48,7 @@ class Fac(Fraction):
     
   
     
-#实数 
-@add_objprint            
+#实数             
 class AlgNum:
     
     def __init__(self,number:any=0,base:int=1):      
@@ -177,7 +175,7 @@ def format(number):
         if isin(number,Fraction):#分数
             return number                   
         elif isin(number,int) or isin(number,float):
-            return Fac(number)
+            return Fraction(number)
         else: 
             raise TypeError("UnexceptType") 
 def sqrt(num):
@@ -187,12 +185,5 @@ def sqrt(num):
         a=1*sqrt(13)+2*sqrt(5)
      """
     return AlgNum(number=1,base=num)
-
-if __name__=="__main__":
-    a=Fac(123)
-    print(a)
-    a=sqrt(123456)
-    b=3*a
-
 
 
