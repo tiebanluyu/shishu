@@ -1,11 +1,12 @@
 from collections import namedtuple
 import logging,math
+from types import MappingProxyiype as frozendict
 Radical=namedtuple("Radical",["rute","indexoftheroot"])
 class Surd():
     def __init__(self,*args):
         self.data:dict
         self.confficient:int
-        #logging.error(args)
+        
         if type(args[0])==dict:
             
             self.data=args[0].copy()
@@ -61,8 +62,12 @@ class Surd():
 
 
 class Polymerization:
-    pass
-
+    def __init__(self,*args):
+        self.data=args
+    def __add__(self,others):
+        sd=self.data
+        od=self.data
+        
 
 
 
