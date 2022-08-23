@@ -1,10 +1,13 @@
 from collections import namedtuple
+import logging,math
 Radical=namedtuple("Radical",["rute","indexoftheroot"])
 class Surd():
     def __init__(self,*args):
         self.data:dict
         self.confficient:int
+        #logging.error(args)
         if type(args[0])==dict:
+            
             self.data=args[0].copy()
         else:
             self.data={}
@@ -24,7 +27,7 @@ class Surd():
                 c+=1                
                 if a%(c**index)==0:
                     b=c
-            print(b)        
+                    
             return b
         data={}
         confficient=self.confficient*others.confficient
@@ -36,20 +39,18 @@ class Surd():
             else:
                 data[i]=sd[i]
         for i in od:
-            if i in sd.keys():
+            if not (i in sd.keys()):
                 data[i]=sd[i]
+                
         for key,value in data.items():
             temp=decompose(value,key)
-            confficient*=temp
+            #print(temp)
+            confficient=temp*confficient
             data[key]=data[key]/(temp**key)
+        for key,value in list(data.items()):
             
-            
-
-
-
-
-
-                
+            if math.isclose(value,1.0):
+                del data[key]
         data[1]=confficient
         return Surd(data)        
 
