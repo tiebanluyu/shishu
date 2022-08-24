@@ -1,6 +1,12 @@
+
+
+
+#import something
 from collections import namedtuple
 import logging,math
-from types import MappingProxyiype as frozendict
+from types import MappingProxyType as frozendict
+
+
 Radical=namedtuple("Radical",["rute","indexoftheroot"])
 class Surd():
     def __init__(self,*args):
@@ -9,17 +15,17 @@ class Surd():
         
         if type(args[0])==dict:
             
-            self.data=args[0].copy()
+            data=args[0].copy()
         else:
-            self.data={}
+            data={}
             for value,key in args:
-                self.data[key]=value
-        if 1 in list(self.data):
-            self.confficient=self.data[1]
-            del self.data[1]
+                data[key]=value
+        if 1 in list(data):
+            self.confficient=data[1]
+            del data[1]
         else:
             self.confficient=1
-
+        self.data=frozendict(data)
     def __mul__(self,others):
         def decompose(a,index):
             b=1
@@ -63,10 +69,26 @@ class Surd():
 
 class Polymerization:
     def __init__(self,*args):
-        self.data=args
+        data={}
+        if type(args[0])==dict:
+           self.data=data
+           return
+        for i in args:
+            data[i.data]=i.confficient
+        self.data=data    
     def __add__(self,others):
         sd=self.data
         od=self.data
+        data={}
+        for key,value in sd.items():
+            data[key]=value
+        for key,value in od.items():
+            if data.get(key) is None:
+                data[key]=value
+            else:
+                data[key]=data[key]+value
+        return        
+        
         
 
 
