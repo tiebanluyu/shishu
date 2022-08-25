@@ -1,18 +1,18 @@
-#·ÖÊıÄ£¿é
+#åˆ†æ•°æ¨¡å—
 class Fac:
-    def __init__(self,num=0,den=1):#³õÊ¼»¯        
-        if isin(num,float):#float¸ñÊ½
+    def __init__(self,num=0,den=1):#åˆå§‹åŒ–        
+        if isin(num,float):#floatæ ¼å¼
             self.num=num*(10**15)
             self.den=(10**15)                    
-        elif isin(num,int):#int¸ñÊ½
+        elif isin(num,int):#intæ ¼å¼
             self.num=num
             self.den=den
         else:
-            raise  TypeError("UnexceptType")#±ğµÄ¶«Î÷
+            raise  TypeError("UnexceptType")#åˆ«çš„ä¸œè¥¿
         self.divide()    
         
-    @property #½«·½·¨·ÃÎÊ×ª»»³ÉÊôĞÔ·ÃÎÊ
-    def value(self):#¼ÆËã
+    @property #å°†æ–¹æ³•è®¿é—®è½¬æ¢æˆå±æ€§è®¿é—®
+    def value(self):#è®¡ç®—
         if self.num==0:
             self.den=1
             return 0
@@ -22,16 +22,16 @@ class Fac:
     
             
                    
-    def divide(self):#Ô¼·Ö
+    def divide(self):#çº¦åˆ†
         def GCD(a,b):
-            #×î´ó¹«Ô¼ÊıÖ®Õ·×ªÏà³ı·¨
+            #æœ€å¤§å…¬çº¦æ•°ä¹‹è¾—è½¬ç›¸é™¤æ³•
             c=1
             while not c==0:
                 c=a%b
                 a=b
                 b=c               
             return a
-        if self.num==0:#ÍòÒ»·Ö×ÓÊÇÁã
+        if self.num==0:#ä¸‡ä¸€åˆ†å­æ˜¯é›¶
             self.den=1
             return
         num=self.num
@@ -42,60 +42,60 @@ class Fac:
         self.num=num
         self.den=den
     
-    #Êä³öÊıÖµ
+    #è¾“å‡ºæ•°å€¼
     def __float__(self):
         return self.value    
     __call__=__float__
     __int__=lambda self:int(self.value)
 
 
-    #±È½Ï,fromatÊÇÎªÁË½ÓÄÉÆäËûÀàĞÍ      
-    __lt__=lambda self,number:self()<fromat(number)()#Ğ¡ÓÚ
-    __gt__=lambda self,number:self()>fromat(number)()#´óÓÚ
-    __le__=lambda self,number:self()<=fromat(number)()#Ğ¡ÓÚµÈÓÚ
-    __ge__=lambda self,number:self()>=fromat(number)()#´óÓÚµÈÓÚ
-    __eq__=lambda self,number:self()==fromat(number)()#µÈÓÚ
-    __ne__=lambda self,number:self()!=fromat(number)()#²»µÈÓÚ
+    #æ¯”è¾ƒ,fromatæ˜¯ä¸ºäº†æ¥çº³å…¶ä»–ç±»å‹      
+    __lt__=lambda self,number:self()<fromat(number)()#å°äº
+    __gt__=lambda self,number:self()>fromat(number)()#å¤§äº
+    __le__=lambda self,number:self()<=fromat(number)()#å°äºç­‰äº
+    __ge__=lambda self,number:self()>=fromat(number)()#å¤§äºç­‰äº
+    __eq__=lambda self,number:self()==fromat(number)()#ç­‰äº
+    __ne__=lambda self,number:self()!=fromat(number)()#ä¸ç­‰äº
             
     
-    #ËÄÔòÔËËã      
+    #å››åˆ™è¿ç®—      
 
-    def __add__(self,number):#¼Ó
-        number=format(number)#¸ñÊ½»¯£¬¼æÈİintºÍfloat
+    def __add__(self,number):#åŠ 
+        number=format(number)#æ ¼å¼åŒ–ï¼Œå…¼å®¹intå’Œfloat
         num=self.num*number.den+number.num*self.den
         den=self.den*number.den        
         return Fac(num,den)
         
-    def __sub__(self,number):#¼õ
+    def __sub__(self,number):#å‡
         number=format(number)
         num=self.num*number.den-number.num*self.den
         den=self.den*number.den      
         return Fac(num,den)
      
-    def __mul__(self,number):#³Ë
+    def __mul__(self,number):#ä¹˜
         number=format(number)
         num=self.num*number.num      
         den=self.den*number.den   
         return Fac(num,den)
    
-    def __truediv__(self,number):#³ı
+    def __truediv__(self,number):#é™¤
         number=format(number)
         num=self.num*number.den     
         den=self.den*number.num   
         return Fac(num,den)
         
-    __div__=__floordiv__=__truediv__#nÖÖ³ı·¨    
-    #·´ÔËËã
+    __div__=__floordiv__=__truediv__#nç§é™¤æ³•    
+    #åè¿ç®—
     __radd__=__add__
     __rmul__=__mul__
     __rsub__=lambda self,number:fromat(number)-self
 
     __rtruediv__=lambda self,number:fromat(number)/self
-    __rdiv__=__rfloordiv__=__rtruediv__#nÖÖ³ı·¨
+    __rdiv__=__rfloordiv__=__rtruediv__#nç§é™¤æ³•
 
      
     
-    #µü´úÆ÷
+    #è¿­ä»£å™¨
     
     def __iter__(self):
         self.iternum=self.num    
@@ -113,7 +113,7 @@ class Fac:
         self.iternum=self.iternum-self.den*b
             
         return b
-    #×ª»»³ÉÁĞ±í
+    #è½¬æ¢æˆåˆ—è¡¨
     def list(self,length=100):
         self.__iter__()
         list1=[]
@@ -122,7 +122,7 @@ class Fac:
         return list1   
             
     
-    #ÎÄ±¾»¯    
+    #æ–‡æœ¬åŒ–    
     __repr__=__str__=lambda self:f"Fac({self.num}/{self.den})"
     __hash__=lambda self:hash((self.num,self.den))	  
     
