@@ -4,7 +4,10 @@
 #import something
 from collections import namedtuple
 import logging,math
-from types import MappingProxyType as frozendict
+from types import MappingProxyType
+class frozendict(MappingProxyType):
+    def __hash__(self):
+        return hash(str(self))
 
 
 Radical=namedtuple("Radical",["rute","indexoftheroot"])
@@ -81,7 +84,10 @@ class Polymerization:
         od=self.data
         data={}
         for key,value in sd.items():
-            data[key]=value
+            if data.get(key) is None:
+                data[key]=value
+            else:
+                data[key]=data[key]+value
         for key,value in od.items():
             if data.get(key) is None:
                 data[key]=value
