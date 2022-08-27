@@ -3,9 +3,13 @@
 
 #import something
 from collections import namedtuple
-import logging,math
+import logging
+from math import isclose
 from types import MappingProxyType
-class frozendict(MappingProxyType):
+class frozendict(dict):
+    """make dictionary hashable
+
+    """
     def __hash__(self):
         return hash(str(self))
 
@@ -59,7 +63,7 @@ class Surd():
             data[key]=data[key]/(temp**key)
         for key,value in list(data.items()):
             
-            if math.isclose(value,1.0):
+            if isclose(value,1.0):
                 del data[key]
         data[1]=confficient
         return Surd(data)        
@@ -74,7 +78,7 @@ class Polymerization:
     def __init__(self,*args):
         data={}
         if type(args[0])==dict:
-           self.data=data
+           self.data=args
            return
         for i in args:
             data[i.data]=i.confficient
@@ -93,7 +97,7 @@ class Polymerization:
                 data[key]=value
             else:
                 data[key]=data[key]+value
-        return        
+        return Polymerization(data)        
         
         
 
