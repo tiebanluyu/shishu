@@ -5,7 +5,7 @@
 from collections import namedtuple
 import logging
 from math import isclose
-from types import MappingProxyType
+#from types import MappingProxyType
 class frozendict(dict):
     """make dictionary hashable
 
