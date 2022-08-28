@@ -19,7 +19,7 @@ class frozendict(dict):#冻结字典，MappingProxyType很难用，不可哈希�
     __clear__=__delitem__=__pop__=__setitem__=nonefunc
 
 
-Radical=namedtuple("Radical",["rute","indexoftheroot"])
+Radical=namedtuple("Radical",["rute","indexoftheroot"])#一个根号
 class Surd():#单项式
     def __init__(self,*args):
         self.data:dict
@@ -28,26 +28,30 @@ class Surd():#单项式
         if type(args[0])==dict:
             
             data=args[0].copy()
-        else:
+        elif instance(args[0],tuple)
             data={}
             for value,key in args:
-                data[key]=value
-        if 1 in list(data):
-            self.confficient=data[1]
+                data[key]=value     
+        else:  
+            data={1:args[0]}
+            
+        if 1 in list(data):#存在常数项，则取出来放到confficient里
+            
+            self.confficient=data[i]
             del data[1]
         else:
             self.confficient=1
         self.data=frozendict(data)
     def __mul__(self,others):
-        def decompose(a,index):
+        def decompose(a,index):#化简
             b=1
             c=1
             while c**index<a:
                 c+=1                
                 if a%(c**index)==0:
-                    b=c
-                    
+                    b=c               
             return b
+        
         data={}
         confficient=self.confficient*others.confficient
         sd=self.data
