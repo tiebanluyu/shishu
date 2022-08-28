@@ -1,21 +1,26 @@
 
 
 
-#import something
+#import something 导入东西
 from collections import namedtuple
 import logging
 from math import isclose
-#from types import MappingProxyType
-class frozendict(dict):
-    """make dictionary hashable
+
+class frozendict(dict):#冻结字典，MappingProxyType很难用，不可哈希的
+    """make dictionary hashable and immuntable
 
     """
+    #from types import MappingProxyType
     def __hash__(self):
         return hash(str(self))
+    def nonefunc(*args,**kws):
+        """clean the function"""
+        return None
+    __clear__=__delitem__=__pop__=__setitem__=nonefunc
 
 
 Radical=namedtuple("Radical",["rute","indexoftheroot"])
-class Surd():
+class Surd():#单项式
     def __init__(self,*args):
         self.data:dict
         self.confficient:int
@@ -67,22 +72,29 @@ class Surd():
                 del data[key]
         data[1]=confficient
         return Surd(data)        
+    def __repr__(self):
+        return str((self.data,self.confficient))
+
+    def __hash__(self):
+        return hash(self.data)*hash(self.confficient)
 
 
 
 
-
-
-
-class Polymerization:
+class Polymerization:#多项式
     def __init__(self,*args):
         data={}
         if type(args[0])==dict:
-           self.data=args
+           self.data=args[0]
+           for i in self.data:
+               if type(i)==Surd:
+                   j=self.data[i]
+                   del self.data[i]
+                   self.data[i.data]=i.confficient*j
            return
         for i in args:
             data[i.data]=i.confficient
-        self.data=data    
+        self.data=frozendict(data)    
     def __add__(self,others):
         sd=self.data
         od=self.data

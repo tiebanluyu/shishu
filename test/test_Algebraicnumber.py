@@ -12,10 +12,14 @@ class testSurd(unittest.TestCase):
         b=a*a*a
         self.assertEqual(a.data,{})
         self.assertEqual(a.confficient,7)
+    def test_repr(self):
+        a=surd({3:4,2:6})
+        self.assertEqual(repr(a),"({3: 4, 2: 6}, 1)")
          
 class testPolymerization(unittest.TestCase):
     def test_init(self):
-        pass
+        a=Surd({1:3})
+        a=Polymerization({a:123})
     def test_add(self):
         """
         a=Surd({2:7})
