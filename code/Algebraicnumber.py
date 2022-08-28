@@ -86,7 +86,7 @@ class Polymerization:#多项式
         data={}
         if type(args[0])==dict:
            self.data=args[0]
-           for i in self.data:
+           for i in self.data.copy():
                if type(i)==Surd:
                    j=self.data[i]
                    del self.data[i]
@@ -109,7 +109,35 @@ class Polymerization:#多项式
                 data[key]=value
             else:
                 data[key]=data[key]+value
-        return Polymerization(data)        
+        return Polymerization(data)
+    def __sub__(self,others):
+        sd=self.data
+        od=self.data
+        data={}
+        for key,value in sd.items():
+            if data.get(key) is None:
+                data[key]=value*(-1)
+            else:
+                data[key]=data[key]-value
+        for key,value in od.items():
+            if data.get(key) is None:
+                data[key]=value*(-1)
+            else:
+                data[key]=data[key]-value
+        return Polymerization(data)
+    def __mul__(self,others):
+        data=Polymerization({})
+        for key1,value1 in self.data.items():
+            i=Surd(dict(key1))*Surd({1:value1})
+            for key2,value2 in others.data.items():
+                j=Surd(dict(key1))*Surd({1:value2})
+                data=data+Polymerization(i*j)
+        return data         
+                
+            
+        
+    
+    
         
         
 
