@@ -22,7 +22,7 @@ But think about it with your mind
 
 Python(other languages are similar) will definitely not give you a root sign of six.
 
-# So lots of developers create various resolvent.So as me. 
+# So lots of developers create various resolvent.So as me. I provide a way. That's AlgNum
 
 
 ## There are ways to create.
@@ -30,11 +30,11 @@ Python(other languages are similar) will definitely not give you a root sign of 
 
 
 ```
+from code import *
 
+A = AlgNum (a) # fraction , integer or floating point number
 
-A = Algnum (a) # fraction , integer or floating point number
-
-B = Algnum ({2: fraction(1), 5: fraction(3)}) 
+B = AlgNum ({2:1, 5: 3}) 
  
 pass in a dictionary. 
 Each key is the number under the root sign (int format is required).
