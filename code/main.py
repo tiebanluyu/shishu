@@ -1,4 +1,4 @@
-﻿"""
+"""
 Copyright (c) 2022 铁板烤鲈鱼
 shishu is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
@@ -13,41 +13,8 @@ See the Mulan PSL v2 for more details.
 from copy import deepcopy
 #方便对格式进行比较
 isin=isinstance
-from fractions import Fraction as officialFraction
+from fractions import Fraction 
 
-#分数模块
-class Fraction(officialFraction):
-    
-    
-    #迭代器
-    
-    def __iter__(self):
-        self._iternum=self.numerator    
-        b=int(self.numerator//self.denominator)       
-        self._iternum-=self.denominator*b
-        self._iterb=b
-        self._itercount=1
-        return self
-    def __next__(self):
-        if self._itercount==1:
-            self._itercount=0
-            return self._iterb            
-        self._iternum=self._iternum*10000
-        b=int(self._iternum/self.denominator)
-        self._iternum=self._iternum-self.denominator*b
-            
-        return b
-    #转换成列表
-    def list(self,length=100):
-        self.__iter__()
-        list1=[]
-        for temp in range(int(length/4)):
-            list1.append(self.__next__())
-        return list1   
-            
-    
-  
-    
 #实数             
 class AlgNum:
     
@@ -172,19 +139,14 @@ class AlgNum:
  
 #将各种格式转为分数
 def format(number):
-    return number
-    """    
-    if isin(number,Fraction):#分数
-            return number                   
-        elif isin(number,int) or isin(number,float):
-            return Fraction(number)
-        else: 
-            raise TypeError("UnexceptType")""" 
+    return Fraction(number)
+    
 def sqrt(num):
     """开平方
 
        可以这么写
         a=1*sqrt(13)+2*sqrt(5)
+        方便人工生成
      """
     return AlgNum(number=1,base=num)
 
