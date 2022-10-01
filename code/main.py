@@ -20,26 +20,26 @@ class AlgNum:
     
     def __init__(self,number:any=0,base:int=1):      
         if  isin(number,AlgNum):#实数格式
-            self._data=deepcopy(number._data)
+            self.__data=deepcopy(number.__data)
             return
         elif isin(number,dict):#dict格式
-            self._data=number
+            self.__data=number
             return    
         else:
             number=format(number)#其他
-            self._data={}
-            self._data[base]=number
+            self.__data={}
+            self.__data[base]=number
         a=self.simplifications()
-        self._data.clear()       
+        self.__data.clear()       
         for i in a:
-            self._data[i]=a[i]
+            self.__data[i]=a[i]
                 
     
     def toadd(self,number,root=1):#添加一个数
-        if self._data.get(root) is None:#已存在，get方法存在则返回切片值，否则返回None
-            self._data[root]=format(number)
+        if self.__data.get(root) is None:#已存在，get方法存在则返回切片值，否则返回None
+            self.__data[root]=format(number)
         else:                                        #不存在
-            self._data[root]+=format(number)
+            self.__data[root]+=format(number)
     
     #四则运算
     
@@ -47,8 +47,8 @@ class AlgNum:
     def __add__(self,number):
         temp=AlgNum(self)
         if isin(number,AlgNum):#实数格式
-            for i in number._data:
-                temp.toadd(number._data[i],i)
+            for i in number.__data:
+                temp.toadd(number.__data[i],i)
                 
         else:#分数，小数
             number=format(number)    
@@ -59,8 +59,8 @@ class AlgNum:
     def __sub__(self,number):
         temp=AlgNum(self)#复制一份       
         if isin(number,AlgNum):#实数格式
-            for i in number._data:
-                temp.toadd(number._data[i]*(-1),i)        
+            for i in number.__data:
+                temp.toadd(number.__data[i]*(-1),i)        
         else:#分数，小数
             number=format(number*(-1))    
             temp.toadd(number)
@@ -77,9 +77,9 @@ class AlgNum:
             return b
             
         copy0={}
-        for temp in self._data:
+        for temp in self.__data:
             temp2=temp
-            temp3=self._data[temp2]
+            temp3=self.__data[temp2]
             temp4=decompose(temp)
             temp2=temp2//(temp4**2)
             temp3=temp3*temp4           
@@ -95,31 +95,31 @@ class AlgNum:
        
     def __mul__(self,number):#乘法
         temp=AlgNum()
-        data1=self._data
-        data2=number._data
+        data1=self.__data
+        data2=number.__data
         for jia in data1:
             for yi in data2:
                 temp.toadd(data1[jia]*data2[yi],root=jia*yi)          
         return AlgNum(temp.simplifications()) 
 
     def __truediv__(self,number):#除法
-        if len(list(number._data))>=4:
+        if len(list(number.__data))>=4:
             raise Exception("理论问题，除数项数不得大于3")
         a=self
         b=number    
-        if (b._data.get(1) is None):
+        if (b.__data.get(1) is None):
             a=a*b
             b=b*b            
-        while not (len(b._data)==1):                     
-            d=b._data.copy()
+        while not (len(b.__data)==1):                     
+            d=b.__data.copy()
             d[1]=d[1]*-1
             c=AlgNum(d)              
             a=a*c
             b=b*c
                 
         c=AlgNum(a)        
-        for i in a._data:
-            c._data[i]=a._data[i]/b._data[1]    
+        for i in a.__data:
+            c.__data[i]=a.__data[i]/b.__data[1]    
         return c    
     
     #反运算
@@ -134,13 +134,13 @@ class AlgNum:
     __rdiv__=__rfloordiv__=__rtruediv__#n种除法
     
     #文本化    
-    __str__=(lambda self : "AlgNum"+str(self._data).
+    __str__=(lambda self : "AlgNum"+str(self.__data).
     	                replace("{","[").replace("}","]") ) 
-    __repr__=(lambda self : "AlgNum("+str(self._data)+")")
+    __repr__=(lambda self : "AlgNum("+str(self.__data)+")")
 
     @property
     def data(self):
-        return self._data
+        return self.__data
 
 #将各种格式转为分数
 def format(number):
